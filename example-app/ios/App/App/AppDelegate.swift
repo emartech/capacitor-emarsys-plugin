@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import EmarsysSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -8,6 +9,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let config = EMSConfig.make { (build) in
+            build.setMobileEngageApplicationCode("EMS08-CD6F6")
+//            build.setMerchantId("merchantId")
+            build.enableConsoleLogLevels([EMSLogLevel.basic, EMSLogLevel.error, EMSLogLevel.info, EMSLogLevel.debug])
+        }
+        Emarsys.setup(config: config)
         return true
     }
 

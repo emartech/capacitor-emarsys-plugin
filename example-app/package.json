@@ -11,8 +11,8 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "ios": "npx cap open ios",
-    "android": "npx cap open android"
+    "ios": "npm run build && npx cap copy ios && npx cap open ios",
+    "android": "npm run build && npx cap copy android && npx cap open android"
   },
   "dependencies": {
     "@capacitor/core": "^7.4.4",
