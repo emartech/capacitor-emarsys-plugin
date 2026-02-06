@@ -1,5 +1,6 @@
 import { SplashScreen } from '@capacitor/splash-screen';
 import { Camera } from '@capacitor/camera';
+import { Emarsys } from 'capacitor-emarsys-plugin';
 
 window.customElements.define(
   'capacitor-welcome',
@@ -70,7 +71,20 @@ window.customElements.define(
       const self = this;
 
       self.shadowRoot.querySelector('#test-button').addEventListener('click', async function (e) {
-        // Empty action
+        try {
+          await Emarsys.trackCustomEvent({
+            eventName: 'test_button_clicked',
+            eventAttributes: {
+              'timestamp': new Date().toISOString(),
+              'source': 'demo_app'
+            }
+          });
+          console.log('Custom event tracked successfully!');
+          alert('Event tracked successfully!');
+        } catch (error) {
+          console.error('Error tracking event:', error);
+          alert('Error tracking event: ' + error);
+        }
       });
 
     }
