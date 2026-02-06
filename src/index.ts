@@ -1,10 +1,10 @@
 import { registerPlugin } from '@capacitor/core';
 
-import type { examplePlugin } from './definitions';
+import type { EmarsysPlugin } from './definitions';
 
-const example = registerPlugin<examplePlugin>('example', {
-  web: () => import('./web').then((m) => new m.exampleWeb()),
+const Emarsys = registerPlugin<EmarsysPlugin>('Emarsys', {
+  web: () => import('./web').then((m) => new m.EmarsysWeb()),
 });
 
 export * from './definitions';
-export { example };
+export { Emarsys };

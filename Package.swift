@@ -7,22 +7,22 @@ let package = Package(
     products: [
         .library(
             name: "CapacitorEmarsysPlugin",
-            targets: ["examplePlugin"])
+            targets: ["EmarsysPlugin"])
     ],
     dependencies: [
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", branch: "main")
     ],
     targets: [
         .target(
-            name: "examplePlugin",
+            name: "EmarsysPlugin",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 .product(name: "Cordova", package: "capacitor-swift-pm")
             ],
-            path: "ios/Sources/examplePlugin"),
+            path: "ios/Sources/EmarsysPlugin"),
         .testTarget(
-            name: "examplePluginTests",
-            dependencies: ["examplePlugin"],
-            path: "ios/Tests/examplePluginTests")
+            name: "EmarsysPluginTests",
+            dependencies: ["EmarsysPlugin"],
+            path: "ios/Tests/EmarsysPluginTests")
     ]
 )
