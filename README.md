@@ -177,6 +177,12 @@ const appCode = await Emarsys.config.getApplicationCode();
 const sdkVersion = await Emarsys.config.getSdkVersion();
 const languageCode = await Emarsys.config.getLanguageCode();
 const clientId = await Emarsys.config.getClientId();
+
+// Geofence
+await Emarsys.geofence.enable();
+await Emarsys.geofence.disable();
+const isEnabled = await Emarsys.geofence.isEnabled();
+const geofences = await Emarsys.geofence.getRegisteredGeofences();
 ```
 
 ### Events
