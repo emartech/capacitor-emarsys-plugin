@@ -15,6 +15,8 @@ const Emarsys: EmarsysApi = {
   clearContact: () => EmarsysPluginInstance.clearContact(),
   trackCustomEvent: options => EmarsysPluginInstance.trackCustomEvent(options),
 
+  addEventListener: listener => EmarsysPluginInstance.addListener('emarsysEventHandler', listener),
+
   push: createPushModule(EmarsysPluginInstance),
 };
 

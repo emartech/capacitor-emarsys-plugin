@@ -9,31 +9,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         registerForPushNotifications()
-        // Override point for customization after application launch.
         let config = EMSConfig.make { (build) in
             build.setMobileEngageApplicationCode("EMS9F-AF591")
-//            build.setMerchantId("merchantId")
             build.enableConsoleLogLevels([EMSLogLevel.basic, EMSLogLevel.error, EMSLogLevel.info, EMSLogLevel.debug])
         }
         Emarsys.setup(config: config)
-        
         UNUserNotificationCenter.current().delegate = Emarsys.push
-        Emarsys.push.notificationEventHandler = { name, payload in
-            print("Push notification event: \(name) | Payload: \(payload ?? [:])")
-        }
-        Emarsys.push.silentMessageEventHandler = { name, payload in
-            print("Silent message event: \(name) | Payload: \(payload ?? [:])")
-        }
-        Emarsys.inApp.eventHandler = { name, payload in
-            print("In-app event: \(name) | Payload: \(payload ?? [:])")
-        }
-        Emarsys.onEventAction.eventHandler = { name, payload in
-            print("On event action: \(name) | Payload: \(payload ?? [:])")
-        }
-        Emarsys.geofence.eventHandler = { name, payload in
-            print("Geofence event: \(name) | Payload: \(payload ?? [:])")
-        }
-        
+
         return true
     }
     

@@ -76,6 +76,13 @@ window.customElements.define(
 
     connectedCallback() {
       const self = this;
+      Emarsys.addEventListener(event => {
+        console.log('Emarsys event:', event);
+        alert(
+          'Name: ' + event.eventName + '\n' +
+          'Payload: ' + JSON.stringify(event.payload, null, 2)
+        );
+      });
 
       self.shadowRoot.querySelector('#set-contact-button').addEventListener('click', async function (e) {
         try {

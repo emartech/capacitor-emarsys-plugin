@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import EmarsysSDK
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -19,6 +20,42 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     ]
     private let implementation = EmarsysCore()
     private let push = EmarsysPush()
+
+    private static let eventName = "emarsysEventHandler"
+
+    // MARK: - Event bus
+
+    /// Called by the Capacitor bridge when the plugin is loaded (after the app's `Emarsys.setup`).
+    public override func load() {
+        let handler: EMSEventHandlerBlock = { [weak self] name, payload in
+            self?.forward(eventName: name, payload: payload)
+        }
+        Emarsys.push.notificationEventHandler = handler
+        Emarsys.push.silentMessageEventHandler = handler
+        Emarsys.inApp.eventHandler = handler
+        Emarsys.onEventAction.eventHandler = handler
+        Emarsys.geofence.eventHandler = handler
+    }
+
+    private func forward(eventName: String, payload: [AnyHashable: Any]?) {
+        var normalizedPayload: [String: Any] = [:]
+        if let payload = payload {
+            for (key, value) in payload {
+                if let key = key as? String {
+                    normalizedPayload[key] = value
+                }
+            }
+        }
+        let data: [String: Any] = [
+            "eventName": eventName,
+            "payload": normalizedPayload
+        ]
+        DispatchQueue.main.async { [weak self] in
+            self?.notifyListeners(EmarsysPlugin.eventName, data: data, retainUntilConsumed: true)
+        }
+    }
+
+    // MARK: - Contact
 
     @objc func setContact(_ call: CAPPluginCall) {
         guard let contactFieldId = call.getInt("contactFieldId") else {
