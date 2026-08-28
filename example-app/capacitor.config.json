@@ -1,5 +1,5 @@
 {
-  "appId": "com.capacitor.example.plugin",
+  "appId": "com.capacitor.example",
   "appName": "example-app",
   "webDir": "dist",
   "ios": {

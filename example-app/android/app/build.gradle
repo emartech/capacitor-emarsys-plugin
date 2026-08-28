@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.capacitor.example.plugin"
+    namespace "com.capacitor.example"
     compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.capacitor.example.plugin"
+        applicationId "com.capacitor.example"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -45,6 +45,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    implementation 'com.emarsys:emarsys-sdk:3.11.3'
+    implementation 'com.emarsys:emarsys-firebase:3.11.3'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.5'
 }
 
