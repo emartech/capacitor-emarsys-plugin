@@ -2,6 +2,9 @@
   "appId": "com.capacitor.example.plugin",
   "appName": "example-app",
   "webDir": "dist",
+  "ios": {
+    "handleApplicationNotifications": false
+  },
   "plugins": {
     "SplashScreen": {
       "launchAutoHide": false

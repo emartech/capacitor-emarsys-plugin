@@ -8,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        registerForPushNotifications()
         // Override point for customization after application launch.
         let config = EMSConfig.make { (build) in
             build.setMobileEngageApplicationCode("EMS08-CD6F6")
@@ -15,7 +16,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             build.enableConsoleLogLevels([EMSLogLevel.basic, EMSLogLevel.error, EMSLogLevel.info, EMSLogLevel.debug])
         }
         Emarsys.setup(config: config)
+        
+        UNUserNotificationCenter.current().delegate = Emarsys.push
+        Emarsys.push.notificationEventHandler = { name, payload in
+            print("Event name: \(name) | Payload: \(payload ?? [:])")
+        }
+        
         return true
+    }
+    
+    //    MARK: - Push Token
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Emarsys.push.setPushToken(pushToken: deviceToken) { (error) in
+            if error == nil {
+                let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+                let token = tokenParts.joined()
+                print("Device Token: \(token)")
+            } else {
+                print("Error: \(error.debugDescription)")
+            }
+        }
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Error:", error)
+    }
+    
+    //    MARK: - User Notifications Permission
+    func registerForPushNotifications() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
+            [weak self] granted, error in
+            print("Permission granted: \(granted)")
+            self?.getNotificationSettings()
+        }
+    }
+    
+    func getNotificationSettings() {
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            print("Permission authorizationStatus: \(settings.authorizationStatus)")
+            switch settings.authorizationStatus {
+            case .authorized, .provisional, .ephemeral:
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+            case .denied, .notDetermined:
+                Emarsys.push.clearPushToken()
+            @unknown default:
+                print("authorization fallback")
+            }
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
