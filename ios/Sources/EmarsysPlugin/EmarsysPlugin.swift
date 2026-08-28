@@ -21,8 +21,14 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     private let push = EmarsysPush()
 
     @objc func setContact(_ call: CAPPluginCall) {
-        guard let contactFieldId = call.getInt("contactFieldId") else { return }
-        guard let contactFieldValue = call.getString("contactFieldValue") else { return }
+        guard let contactFieldId = call.getInt("contactFieldId") else {
+            call.reject("contactFieldId is required")
+            return
+        }
+        guard let contactFieldValue = call.getString("contactFieldValue") else {
+            call.reject("contactFieldValue is required")
+            return
+        }
         
         implementation.setContact(contactFieldId: contactFieldId, contactFieldValue: contactFieldValue) { error in
             if let error = error {
@@ -44,7 +50,10 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func trackCustomEvent(_ call: CAPPluginCall) {
-        let eventName = call.getString("eventName") ?? ""
+        guard let eventName = call.getString("eventName") else {
+            call.reject("eventName is required")
+            return
+        }
         let eventAttributes = call.getObject("eventAttributes") as NSDictionary? ?? [:]
         
         implementation.trackCustomEvent(eventName: eventName, eventAttributes: eventAttributes) { error in
