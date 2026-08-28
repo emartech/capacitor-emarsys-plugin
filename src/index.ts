@@ -11,11 +11,11 @@ const EmarsysPluginInstance = registerPlugin<EmarsysPlugin>('Emarsys');
 // The public API: core methods delegate to the native bridge, and each
 // feature is exposed through its own module (mirroring the RN SDK structure).
 const Emarsys: EmarsysApi = {
-  setContact: options => EmarsysPluginInstance.setContact(options),
+  setContact: (options) => EmarsysPluginInstance.setContact(options),
   clearContact: () => EmarsysPluginInstance.clearContact(),
-  trackCustomEvent: options => EmarsysPluginInstance.trackCustomEvent(options),
+  trackCustomEvent: (options) => EmarsysPluginInstance.trackCustomEvent(options),
 
-  addEventListener: listener => EmarsysPluginInstance.addListener('emarsysEventHandler', listener),
+  addEventListener: (listener) => EmarsysPluginInstance.addListener('emarsysEventHandler', listener),
 
   push: createPushModule(EmarsysPluginInstance),
 };

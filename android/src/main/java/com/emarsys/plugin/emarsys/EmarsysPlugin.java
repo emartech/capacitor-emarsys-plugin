@@ -7,13 +7,11 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "Emarsys")
 public class EmarsysPlugin extends Plugin {
@@ -27,7 +25,7 @@ public class EmarsysPlugin extends Plugin {
 
     /**
      * Called by the Capacitor bridge when the plugin is loaded (after the app's
-     * {@code Emarsys.setup}). 
+     * {@code Emarsys.setup}).
      */
     @Override
     public void load() {
@@ -70,7 +68,7 @@ public class EmarsysPlugin extends Plugin {
             return;
         }
 
-        implementation.setContact(contactFieldId, contactFieldValue, error -> {
+        implementation.setContact(contactFieldId, contactFieldValue, (error) -> {
             if (error != null) {
                 call.reject("Set contact error", error.getMessage());
             } else {
@@ -81,7 +79,7 @@ public class EmarsysPlugin extends Plugin {
 
     @PluginMethod
     public void clearContact(PluginCall call) {
-        implementation.clearContact(error -> {
+        implementation.clearContact((error) -> {
             if (error != null) {
                 call.reject(error.getMessage());
             } else {
@@ -110,7 +108,7 @@ public class EmarsysPlugin extends Plugin {
             }
         }
 
-        implementation.trackCustomEvent(eventName, eventAttributes, error -> {
+        implementation.trackCustomEvent(eventName, eventAttributes, (error) -> {
             if (error != null) {
                 call.reject("Track custom event error", error.getMessage());
             } else {
@@ -130,7 +128,7 @@ public class EmarsysPlugin extends Plugin {
             return;
         }
 
-        push.setPushToken(pushToken, error -> {
+        push.setPushToken(pushToken, (error) -> {
             if (error != null) {
                 call.reject(error.getMessage());
             } else {
@@ -141,7 +139,7 @@ public class EmarsysPlugin extends Plugin {
 
     @PluginMethod
     public void clearPushToken(PluginCall call) {
-        push.clearPushToken(error -> {
+        push.clearPushToken((error) -> {
             if (error != null) {
                 call.reject(error.getMessage());
             } else {
