@@ -16,20 +16,25 @@ import java.util.Map;
 public class EmarsysPlugin extends Plugin {
 
     private EmarsysCore implementation = new EmarsysCore();
+    private EmarsysPushCore push = new EmarsysPushCore();
 
     @PluginMethod
     public void setContact(PluginCall call) {
         Integer contactFieldId = call.getInt("contactFieldId");
         String contactFieldValue = call.getString("contactFieldValue");
 
-        if (contactFieldId == null || contactFieldValue == null) {
-            call.reject("contactFieldId and contactFieldValue are required");
+        if (contactFieldId == null) {
+            call.reject("contactFieldId is required");
+            return;
+        }
+        if (contactFieldValue == null) {
+            call.reject("contactFieldValue is required");
             return;
         }
 
         implementation.setContact(contactFieldId, contactFieldValue, error -> {
             if (error != null) {
-                call.reject(error.getMessage());
+                call.reject("Set contact error", error.getMessage());
             } else {
                 call.resolve();
             }
@@ -69,10 +74,49 @@ public class EmarsysPlugin extends Plugin {
 
         implementation.trackCustomEvent(eventName, eventAttributes, error -> {
             if (error != null) {
+                call.reject("Track custom event error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
+
+    // Push
+
+    @PluginMethod
+    public void setPushToken(PluginCall call) {
+        String pushToken = call.getString("pushToken");
+
+        if (pushToken == null || pushToken.isEmpty()) {
+            call.reject("pushToken is required");
+            return;
+        }
+
+        push.setPushToken(pushToken, error -> {
+            if (error != null) {
                 call.reject(error.getMessage());
             } else {
                 call.resolve();
             }
         });
+    }
+
+    @PluginMethod
+    public void clearPushToken(PluginCall call) {
+        push.clearPushToken(error -> {
+            if (error != null) {
+                call.reject(error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
+
+    @PluginMethod
+    public void getPushToken(PluginCall call) {
+        String pushToken = push.getPushToken();
+        JSObject ret = new JSObject();
+        ret.put("pushToken", pushToken != null ? pushToken : "");
+        call.resolve(ret);
     }
 }
