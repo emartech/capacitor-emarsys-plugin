@@ -14,16 +14,16 @@ This plugin is under active development. The table below compares current implem
 | Feature | iOS | Android | Notes |
 |---|---|---|---|
 | **Contact Management** | | | |
-| `setContact` | ✅ | ✅ | |
-| `clearContact` | ✅ | ✅ | |
+| `setContact` | ✅ | ✅ | `Emarsys.setContact()` |
+| `clearContact` | ✅ | ✅ | `Emarsys.clearContact()` |
 | **Push** | | | |
-| `setPushToken` | ✅ | ✅ | |
-| `clearPushToken` | ✅ | ✅ | |
-| `getPushToken` | ✅ | ✅ | |
+| `setPushToken` | ✅ | ✅ | `Emarsys.push.setPushToken()` |
+| `clearPushToken` | ✅ | ✅ | `Emarsys.push.clearPushToken()` |
+| `getPushToken` | ✅ | ✅ | `Emarsys.push.getPushToken()` |
 | `notificationEventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | `silentMessageEventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | **Event Tracking** | | | |
-| `trackCustomEvent` | ✅ | ✅ | |
+| `trackCustomEvent` | ✅ | ✅ | `Emarsys.trackCustomEvent()` |
 | **In-App Messaging** | | | |
 | `pause` | ✅ | ✅ | `Emarsys.inApp.pause()` |
 | `resume` | ✅ | ✅ | `Emarsys.inApp.resume()` |
