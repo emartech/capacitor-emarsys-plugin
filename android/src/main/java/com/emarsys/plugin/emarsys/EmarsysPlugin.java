@@ -9,14 +9,24 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "Emarsys")
 public class EmarsysPlugin extends Plugin {
 
-    private Emarsys implementation = new Emarsys();
+    private EmarsysCore implementation = new EmarsysCore();
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
+    public void setContact(PluginCall call) {
+        Integer contactFieldId = call.getInt("contactFieldId");
+        String contactFieldValue = call.getString("contactFieldValue");
 
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
+        if (contactFieldId == null || contactFieldValue == null) {
+            call.reject("contactFieldId and contactFieldValue are required");
+            return;
+        }
+
+        implementation.setContact(contactFieldId, contactFieldValue, error -> {
+            if (error != null) {
+                call.reject(error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
     }
 }
