@@ -2,4 +2,11 @@ html,
 body {
   padding: 0;
   margin: 0;
+  height: 100%;
+}
+
+capacitor-welcome {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
