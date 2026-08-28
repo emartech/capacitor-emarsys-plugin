@@ -1,8 +1,8 @@
-package com.emarsys.plugin.example;
+package com.emarsys.plugin.emarsys;
 
 import android.util.Log;
 
-public class example {
+public class Emarsys {
 
     public String echo(String value) {
         Log.i("Echo", value);
