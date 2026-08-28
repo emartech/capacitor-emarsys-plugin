@@ -1,13 +1,11 @@
-name: CI
+name: Run JS Tests
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
-  test:
+  js-tests:
     runs-on: ubuntu-latest
 
     steps:

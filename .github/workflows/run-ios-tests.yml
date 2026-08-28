@@ -1,0 +1,23 @@
+name: Run iOS Tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+jobs:
+  ios-tests:
+    runs-on: macos-15-xlarge
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Xcode 16.4
+        run: sudo xcode-select -switch /Applications/Xcode_16.4.app
+
+      - name: Run iOS unit tests
+        run: |
+          xcodebuild test \
+            -scheme CapacitorEmarsysPlugin \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -configuration Debug
