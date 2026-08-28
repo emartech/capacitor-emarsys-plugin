@@ -11,7 +11,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         registerForPushNotifications()
         // Override point for customization after application launch.
         let config = EMSConfig.make { (build) in
-            build.setMobileEngageApplicationCode("EMS08-CD6F6")
+            build.setMobileEngageApplicationCode("EMS9F-AF591")
 //            build.setMerchantId("merchantId")
             build.enableConsoleLogLevels([EMSLogLevel.basic, EMSLogLevel.error, EMSLogLevel.info, EMSLogLevel.debug])
         }

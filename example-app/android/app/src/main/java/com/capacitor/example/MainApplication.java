@@ -23,7 +23,7 @@ public class MainApplication extends Application {
 
         EmarsysConfig config = new EmarsysConfig.Builder()
                 .application(this)
-                .applicationCode("EMS08-CD6F6")
+                .applicationCode("EMS9F-AF591")
                 .enableVerboseConsoleLogging()
                 .build();
 
