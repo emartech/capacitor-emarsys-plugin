@@ -71,6 +71,9 @@
   "peerDependencies": {
     "@capacitor/core": "^8.5.0"
   },
+  "overrides": {
+    "typescript": "~4.1.5"
+  },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
   "eslintConfig": {
