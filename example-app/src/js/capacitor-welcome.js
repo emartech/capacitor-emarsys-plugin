@@ -64,6 +64,11 @@ window.customElements.define(
         <button class="button" id="set-contact-button">Set Contact</button>
         <button class="button" id="clear-contact-button">Clear Contact</button>
         <button class="button" id="track-custom-event-button">Track Custom Event</button>
+
+        <h2>Push</h2>
+        <button class="button" id="set-push-token-button">Set Push Token</button>
+        <button class="button" id="clear-push-token-button">Clear Push Token</button>
+        <button class="button" id="get-push-token-button">Get Push Token</button>
       </main>
     </div>
     `;
@@ -111,6 +116,39 @@ window.customElements.define(
         } catch (error) {
           console.error('Track custom event error:', error);
           alert('Track custom event error: ' + error);
+        }
+      });
+
+      self.shadowRoot.querySelector('#set-push-token-button').addEventListener('click', async function () {
+        try {
+          await Emarsys.push.setPushToken('c4e8c9d2a1b3f5e7091a2b3c4d5e6f708192a3b4c5d6e7f8091a2b3c4d5e6f70');
+          console.log('Set push token success!');
+          alert('Set push token success!');
+        } catch (error) {
+          console.error('Set push token error:', error.message || error);
+          alert('Set push token error: ' + (error.message || error));
+        }
+      });
+
+      self.shadowRoot.querySelector('#clear-push-token-button').addEventListener('click', async function () {
+        try {
+          await Emarsys.push.clearPushToken();
+          console.log('Clear push token success!');
+          alert('Clear push token success!');
+        } catch (error) {
+          console.error('Clear push token error:', error.message || error);
+          alert('Clear push token error: ' + (error.message || error));
+        }
+      });
+
+      self.shadowRoot.querySelector('#get-push-token-button').addEventListener('click', async function () {
+        try {
+          const pushToken = await Emarsys.push.getPushToken();
+          console.log('Get push token success:', pushToken);
+          alert('Push token: ' + (pushToken || '(none)'));
+        } catch (error) {
+          console.error('Get push token error:', error.message || error);
+          alert('Get push token error: ' + (error.message || error));
         }
       });
 

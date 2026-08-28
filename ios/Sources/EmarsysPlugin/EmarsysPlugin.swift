@@ -12,9 +12,13 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "setContact", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "clearContact", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "trackCustomEvent", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "trackCustomEvent", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setPushToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "clearPushToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getPushToken", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
+    private let push = EmarsysPush()
 
     @objc func setContact(_ call: CAPPluginCall) {
         guard let contactFieldId = call.getInt("contactFieldId") else { return }
@@ -50,5 +54,39 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
                 call.resolve()
             }
         }
+    }
+
+    // MARK: - Push
+
+    @objc func setPushToken(_ call: CAPPluginCall) {
+        guard let pushToken = call.getString("pushToken") else {
+            call.reject("pushToken is required")
+            return
+        }
+
+        push.setPushToken(pushToken: pushToken) { error in
+            if let error = error {
+                call.reject("Set push token error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func clearPushToken(_ call: CAPPluginCall) {
+        push.clearPushToken() { error in
+            if let error = error {
+                call.reject("Clear push token error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func getPushToken(_ call: CAPPluginCall) {
+        let pushToken = push.getPushToken()
+        call.resolve([
+            "pushToken": pushToken ?? ""
+        ])
     }
 }
