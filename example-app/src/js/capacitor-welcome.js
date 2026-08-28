@@ -61,7 +61,8 @@ window.customElements.define(
     <div>
       <main>
         <h1>Emarsys Plugin Demo</h1>
-        <button class="button" id="test-button">Test Button</button>
+        <button class="button" id="set-contact-button">Set Contact</button>
+        <button class="button" id="track-custom-event-button">Track Custom Event</button>
       </main>
     </div>
     `;
@@ -70,20 +71,34 @@ window.customElements.define(
     connectedCallback() {
       const self = this;
 
-      self.shadowRoot.querySelector('#test-button').addEventListener('click', async function (e) {
+      self.shadowRoot.querySelector('#set-contact-button').addEventListener('click', async function (e) {
+        try {
+          await Emarsys.setContact({
+            contactFieldId: 3,
+            contactFieldValue: "demoapp@emarsys.com"
+          });
+          console.log('Set contact success!');
+          alert('Set contact success!');
+        } catch (error) {
+          console.error('Set contact error:', error);
+          alert('Set contact error: ' + error);
+        }
+      });
+
+      self.shadowRoot.querySelector('#track-custom-event-button').addEventListener('click', async function (e) {
         try {
           await Emarsys.trackCustomEvent({
-            eventName: 'test_button_clicked',
+            eventName: 'track_custom_event',
             eventAttributes: {
               'timestamp': new Date().toISOString(),
               'source': 'demo_app'
             }
           });
-          console.log('Custom event tracked successfully!');
+          console.log('Track custom event success!');
           alert('Event tracked successfully!');
         } catch (error) {
-          console.error('Error tracking event:', error);
-          alert('Error tracking event: ' + error);
+          console.error('Track custom event error:', error);
+          alert('Track custom event error: ' + error);
         }
       });
 
