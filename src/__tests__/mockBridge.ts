@@ -27,6 +27,10 @@ export function createMockBridge(): MockedBridge {
     getClientId: jest.fn().mockResolvedValue({ clientId: '' }),
     getLanguageCode: jest.fn().mockResolvedValue({ languageCode: '' }),
     getSdkVersion: jest.fn().mockResolvedValue({ sdkVersion: '' }),
+    enableGeofence: jest.fn().mockResolvedValue(undefined),
+    disableGeofence: jest.fn().mockResolvedValue(undefined),
+    isGeofenceEnabled: jest.fn().mockResolvedValue({ isEnabled: false }),
+    getRegisteredGeofences: jest.fn().mockResolvedValue({ geofences: [] }),
     addListener: jest.fn().mockResolvedValue({ remove: jest.fn() }),
   };
 }

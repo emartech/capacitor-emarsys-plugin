@@ -43,9 +43,10 @@ This plugin is under active development. The table below compares current implem
 | `fetchMessages` | ❌ | ❌ | To be confirmed |
 | `addTag` / `removeTag` | ❌ | ❌ | To be confirmed |
 | **Geofencing** | | | |
-| `enable` / `disable` | ❌ | ❌ | To be confirmed |
-| `isEnabled` | ❌ | ❌ | To be confirmed |
-| `getRegisteredGeofences` | ❌ | ❌ | To be confirmed |
+| `enable` | ✅ | ✅ | `Emarsys.geofence.enable()` |
+| `disable` | ✅ | ✅ | `Emarsys.geofence.disable()` |
+| `isEnabled` | ✅ | ✅ | `Emarsys.geofence.isEnabled()` |
+| `getRegisteredGeofences` | ✅ | ✅ | `Emarsys.geofence.getRegisteredGeofences()` |
 | `geofence.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | **Configuration** | | | |
 | `changeApplicationCode` | ✅ | ✅ | `Emarsys.config.changeApplicationCode()` |

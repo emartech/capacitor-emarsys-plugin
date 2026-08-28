@@ -2,31 +2,187 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="UTF-8" />
-    <title>Awesome Capacitor App</title>
+    <title>Emarsys Capacitor Plugin</title>
     <meta
       name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
-
-    <script
-      type="module"
-      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.esm.js"
-    ></script>
-    <script
-      nomodule
-      src="https://unpkg.com/@ionic/pwa-elements@latest/dist/ionicpwaelements/ionicpwaelements.js"
-    ></script>
-
-    <link rel="icon" type="image/x-icon" href="./assets/icon/favicon.ico" />
     <link rel="manifest" href="./manifest.json" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <meta name="theme-color" content="#31d53d" />
+    <meta name="theme-color" content="#595959" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html, body {
+        margin: 0; padding: 0;
+        width: 100%; height: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background: #fff;
+      }
+
+      #app {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+      }
+
+      .safe-top {
+        background: #595959;
+        height: env(safe-area-inset-top, 20px);
+        flex-shrink: 0;
+      }
+
+      .app-title {
+        flex-shrink: 0;
+        font-size: 18px;
+        font-weight: 700;
+        text-align: center;
+        padding: 16px;
+        background: #595959;
+        color: #fff;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+
+      .tab-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .tab-pane {
+        display: none;
+        padding: 24px 16px;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      .tab-pane.active { display: block; }
+
+      .page-title {
+        font-size: 22px;
+        font-weight: 700;
+        margin: 0 0 20px 0;
+      }
+
+      .btn {
+        display: block;
+        width: 100%;
+        padding: 14px 16px;
+        margin-top: 12px;
+        background: #595959;
+        color: #fff;
+        font-size: 15px;
+        font-weight: 500;
+        border: none;
+        border-radius: 8px;
+        text-align: left;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .btn:active { opacity: 0.8; }
+
+      .section-separator {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 24px 0 0 0;
+      }
+
+      .tab-bar {
+        flex-shrink: 0;
+        display: flex;
+        border-top: 1px solid #ddd;
+        background: #fff;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 10px 4px 8px;
+        font-size: 11px;
+        font-weight: 600;
+        text-align: center;
+        background: none;
+        border: none;
+        border-top: 3px solid transparent;
+        color: #999;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .tab-btn.active {
+        color: #595959;
+        border-top-color: #595959;
+      }
+    </style>
   </head>
   <body>
-    <capacitor-welcome></capacitor-welcome>
+    <div id="app">
+      <div class="safe-top"></div>
+      <div class="app-title">Emarsys Capacitor Plugin</div>
 
-    <script src="./js/index.js" type="module"></script>
+      <div class="tab-content">
+
+        <!-- Config tab -->
+        <div class="tab-pane active" id="tab-config">
+          <h1 class="page-title">Contact</h1>
+          <button class="btn" id="set-contact">Set Contact</button>
+          <button class="btn" id="clear-contact">Clear Contact</button>
+          <hr class="section-separator" />
+          <h1 class="page-title" style="margin-top:20px">Event Tracking</h1>
+          <button class="btn" id="track-custom-event">Track Custom Event</button>
+          <hr class="section-separator" />
+          <h1 class="page-title" style="margin-top:20px">Config</h1>
+          <button class="btn" id="change-app-code">Change Application Code</button>
+          <button class="btn" id="change-merchant-id">Change Merchant ID</button>
+          <button class="btn" id="get-app-code">Get Application Code</button>
+          <button class="btn" id="get-merchant-id">Get Merchant ID</button>
+          <button class="btn" id="get-client-id">Get Client ID</button>
+          <button class="btn" id="get-language-code">Get Language Code</button>
+          <button class="btn" id="get-sdk-version">Get SDK Version</button>
+        </div>
+
+        <!-- Push tab -->
+        <div class="tab-pane" id="tab-push">
+          <h1 class="page-title">Push</h1>
+          <button class="btn" id="set-push-token">Set Push Token</button>
+          <button class="btn" id="clear-push-token">Clear Push Token</button>
+          <button class="btn" id="get-push-token">Get Push Token</button>
+        </div>
+
+        <!-- In-App tab -->
+        <div class="tab-pane" id="tab-inapp">
+          <h1 class="page-title">In-App</h1>
+          <button class="btn" id="pause-inapp">Pause</button>
+          <button class="btn" id="resume-inapp">Resume</button>
+          <button class="btn" id="is-inapp-paused">Is Paused?</button>
+        </div>
+
+        <!-- Geofence tab -->
+        <div class="tab-pane" id="tab-geofence">
+          <h1 class="page-title">Geofence</h1>
+          <button class="btn" id="enable-geofence">Enable</button>
+          <button class="btn" id="disable-geofence">Disable</button>
+          <button class="btn" id="is-geofence-enabled">Is Enabled?</button>
+          <button class="btn" id="get-registered-geofences">Get Registered Geofences</button>
+          <button class="btn" id="request-location-permission">Request Location Permission</button>
+        </div>
+
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="config">Config</button>
+        <button class="tab-btn" data-tab="push">Push</button>
+        <button class="tab-btn" data-tab="inapp">In-App</button>
+        <button class="tab-btn" data-tab="geofence">Geofence</button>
+      </div>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>

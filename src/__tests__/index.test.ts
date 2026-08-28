@@ -118,6 +118,11 @@ describe('Emarsys core API', () => {
       expect(typeof Emarsys.config.getClientId).toBe('function');
       expect(typeof Emarsys.config.getLanguageCode).toBe('function');
       expect(typeof Emarsys.config.getSdkVersion).toBe('function');
+
+      expect(typeof Emarsys.geofence.enable).toBe('function');
+      expect(typeof Emarsys.geofence.disable).toBe('function');
+      expect(typeof Emarsys.geofence.isEnabled).toBe('function');
+      expect(typeof Emarsys.geofence.getRegisteredGeofences).toBe('function');
     });
   });
 });

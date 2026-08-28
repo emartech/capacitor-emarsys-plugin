@@ -1,5 +1,9 @@
 import type { PluginListenerHandle } from '@capacitor/core';
 
+import type { Geofence } from './types/Geofence';
+
+export type { Geofence, GeofenceTrigger } from './types/Geofence';
+
 export interface EmarsysEvent {
   eventName: string;
   payload: Record<string, unknown>;
@@ -28,6 +32,11 @@ export interface EmarsysPlugin {
   getLanguageCode(): Promise<{ languageCode: string }>;
   getSdkVersion(): Promise<{ sdkVersion: string }>;
 
+  enableGeofence(): Promise<void>;
+  disableGeofence(): Promise<void>;
+  isGeofenceEnabled(): Promise<{ isEnabled: boolean }>;
+  getRegisteredGeofences(): Promise<{ geofences: Geofence[] }>;
+
   // Auto-implemented by Capacitor's CAPPlugin; declared here for typing only.
   addListener(eventName: 'emarsysEventHandler', listenerFunc: EmarsysEventListener): Promise<PluginListenerHandle>;
 }
@@ -54,6 +63,13 @@ export interface ConfigModule {
   getSdkVersion(): Promise<string>;
 }
 
+export interface GeofenceModule {
+  enable(): Promise<void>;
+  disable(): Promise<void>;
+  isEnabled(): Promise<boolean>;
+  getRegisteredGeofences(): Promise<Geofence[]>;
+}
+
 export interface EmarsysApi {
   setContact(options: { contactFieldId: number; contactFieldValue: string }): Promise<void>;
   clearContact(): Promise<void>;
@@ -64,4 +80,5 @@ export interface EmarsysApi {
   push: PushModule;
   inApp: InAppModule;
   config: ConfigModule;
+  geofence: GeofenceModule;
 }

@@ -22,6 +22,7 @@ public class EmarsysPlugin extends Plugin {
     private EmarsysPush push = new EmarsysPush();
     private EmarsysInApp inApp = new EmarsysInApp();
     private EmarsysConfig config = new EmarsysConfig();
+    private EmarsysGeofence geofence = new EmarsysGeofence();
 
     // Event bus
 
@@ -188,7 +189,7 @@ public class EmarsysPlugin extends Plugin {
             call.reject("applicationCode is required");
             return;
         }
-        config.changeApplicationCode(applicationCode, error -> {
+        config.changeApplicationCode(applicationCode, (error) -> {
             if (error != null) {
                 call.reject("Change application code error", error.getMessage());
             } else {
@@ -245,6 +246,39 @@ public class EmarsysPlugin extends Plugin {
         JSObject ret = new JSObject();
         String value = config.getSdkVersion();
         ret.put("sdkVersion", value != null ? value : "");
+        call.resolve(ret);
+    }
+
+    // Geofence
+
+    @PluginMethod
+    public void enableGeofence(PluginCall call) {
+        geofence.enable((error) -> {
+            if (error != null) {
+                call.reject("Enable geofence error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
+
+    @PluginMethod
+    public void disableGeofence(PluginCall call) {
+        geofence.disable();
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void isGeofenceEnabled(PluginCall call) {
+        JSObject ret = new JSObject();
+        ret.put("isEnabled", geofence.isEnabled());
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getRegisteredGeofences(PluginCall call) {
+        JSObject ret = new JSObject();
+        ret.put("geofences", geofence.getRegisteredGeofences());
         call.resolve(ret);
     }
 }

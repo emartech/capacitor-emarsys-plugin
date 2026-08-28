@@ -15,12 +15,13 @@
     "android": "npm run build && npx cap copy android && npx cap open android"
   },
   "dependencies": {
-    "@capacitor/core": "^8.5.0",
+    "@capacitor/android": "^8.5.0",
     "@capacitor/camera": "^8.0.0",
-    "@capacitor/splash-screen": "^8.0.0",
-    "capacitor-emarsys-plugin": "file:..",
+    "@capacitor/core": "^8.5.0",
+    "@capacitor/geolocation": "^8.2.2",
     "@capacitor/ios": "^8.5.0",
-    "@capacitor/android": "^8.5.0"
+    "@capacitor/splash-screen": "^8.0.0",
+    "capacitor-emarsys-plugin": "file:.."
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.0",

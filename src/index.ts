@@ -1,6 +1,8 @@
 import { registerPlugin } from '@capacitor/core';
+
 import { createConfigModule } from './config';
 import type { EmarsysApi, EmarsysPlugin } from './definitions';
+import { createGeofenceModule } from './geofence';
 import { createInAppModule } from './inApp';
 import { createPushModule } from './push';
 
@@ -16,6 +18,7 @@ const Emarsys: EmarsysApi = {
   push: createPushModule(EmarsysPluginInstance),
   inApp: createInAppModule(EmarsysPluginInstance),
   config: createConfigModule(EmarsysPluginInstance),
+  geofence: createGeofenceModule(EmarsysPluginInstance),
 };
 
 export * from './definitions';

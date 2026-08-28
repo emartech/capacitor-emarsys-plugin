@@ -5,7 +5,7 @@ import com.emarsys.Emarsys;
 public class EmarsysConfig {
 
     public void changeApplicationCode(String applicationCode, EmarsysCompletionListener listener) {
-        Emarsys.getConfig().changeApplicationCode(applicationCode, error -> listener.onComplete(error));
+        Emarsys.getConfig().changeApplicationCode(applicationCode, (error) -> listener.onComplete(error));
     }
 
     public void changeMerchantId(String merchantId) {

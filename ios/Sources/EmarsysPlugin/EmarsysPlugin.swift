@@ -26,12 +26,17 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getMerchantId", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getClientId", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getLanguageCode", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getSdkVersion", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "getSdkVersion", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "enableGeofence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "disableGeofence", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isGeofenceEnabled", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getRegisteredGeofences", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
     private let push = EmarsysPush()
     private let inApp = EmarsysInApp()
     private let config = EmarsysConfig()
+    private let geofence = EmarsysGeofence()
 
     private static let eventName = "emarsysEventHandler"
 
@@ -207,5 +212,35 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func getSdkVersion(_ call: CAPPluginCall) {
         call.resolve(["sdkVersion": config.getSdkVersion() ?? ""])
+    }
+
+    // MARK: - Geofence
+
+    @objc func enableGeofence(_ call: CAPPluginCall) {
+        geofence.enable { error in
+            if let error = error {
+                call.reject("Enable geofence error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func disableGeofence(_ call: CAPPluginCall) {
+        geofence.disable()
+        call.resolve()
+    }
+
+    @objc func isGeofenceEnabled(_ call: CAPPluginCall) {
+        call.resolve(["isEnabled": geofence.isEnabled()])
+    }
+
+    @objc func getRegisteredGeofences(_ call: CAPPluginCall) {
+        call.resolve(["geofences": geofence.getRegisteredGeofences()])
+    }
+
+    @objc func requestLocationPermission(_ call: CAPPluginCall) {
+        geofence.requestAlwaysAuthorization()
+        call.resolve()
     }
 }
