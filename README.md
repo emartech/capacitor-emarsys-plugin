@@ -20,16 +20,16 @@ This plugin is under active development. The table below compares current implem
 | `setPushToken` | ✅ | ✅ | |
 | `clearPushToken` | ✅ | ✅ | |
 | `getPushToken` | ✅ | ✅ | |
-| `notificationEventHandler` | ✅ | ⚠️ | iOS: forwarded to JS via `Emarsys.addEventListener`. Android: native handler wired, JS bridge pending. |
-| `silentMessageEventHandler` | ✅ | ⚠️ | iOS: forwarded to JS via `Emarsys.addEventListener`. Android: native handler wired, JS bridge pending. |
+| `notificationEventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
+| `silentMessageEventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | **Event Tracking** | | | |
 | `trackCustomEvent` | ✅ | ✅ | |
 | **In-App Messaging** | | | |
 | `pause` | ❌ | ❌ | To be confirmed |
 | `resume` | ❌ | ❌ | To be confirmed |
 | `loadInlineInApp` | ❌ | ❌ | To be confirmed |
-| `inApp.eventHandler` | ✅ | ⚠️ | iOS: forwarded to JS via `Emarsys.addEventListener`. Android: native handler wired, JS bridge pending. |
-| `onEventAction.eventHandler` | ✅ | ⚠️ | iOS: forwarded to JS via `Emarsys.addEventListener`. Android: native handler wired, JS bridge pending. |
+| `inApp.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
+| `onEventAction.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | **Predict** | | | |
 | `trackPurchase` | ❌ | ❌ | To be confirmed |
 | `trackItemView` | ❌ | ❌ | To be confirmed |
@@ -45,7 +45,7 @@ This plugin is under active development. The table below compares current implem
 | `enable` / `disable` | ❌ | ❌ | To be confirmed |
 | `isEnabled` | ❌ | ❌ | To be confirmed |
 | `getRegisteredGeofences` | ❌ | ❌ | To be confirmed |
-| `geofence.eventHandler` | ✅ | ⚠️ | iOS: forwarded to JS via `Emarsys.addEventListener`. Android: native handler wired, JS bridge pending. |
+| `geofence.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | **Configuration** | | | |
 | `changeApplicationCode` | ❌ | ❌ | To be confirmed |
 | `changeMerchantId` | ❌ | ❌ | To be confirmed |
@@ -55,10 +55,7 @@ This plugin is under active development. The table below compares current implem
 
 ### Known Issues
 
-- **Event handler bridge (Android)** — on iOS, all five Emarsys event handlers are forwarded to the
-  JavaScript layer automatically (subscribe with `Emarsys.addEventListener`, see [Events](#events)).
-  On Android the native handlers are wired but the JS bridge is not yet implemented. Until then, the
-  Android handlers can only be used natively in `MainApplication.java`.
+- None currently.
 
 ---
 
@@ -88,22 +85,6 @@ didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: An
     Emarsys.setup(config: config)
 
     UNUserNotificationCenter.current().delegate = Emarsys.push
-
-    Emarsys.push.notificationEventHandler = { name, payload in
-        // handle push notification event
-    }
-    Emarsys.push.silentMessageEventHandler = { name, payload in
-        // handle silent message event
-    }
-    Emarsys.inApp.eventHandler = { name, payload in
-        // handle in-app event
-    }
-    Emarsys.onEventAction.eventHandler = { name, payload in
-        // handle on event action
-    }
-    Emarsys.geofence.eventHandler = { name, payload in
-        // handle geofence event
-    }
 
     return true
 }
@@ -156,12 +137,6 @@ public void onCreate() {
             .applicationCode("<APPLICATION_CODE>")
             .build();
     Emarsys.setup(config);
-
-    Emarsys.getPush().setNotificationEventHandler((context, name, payload) -> { /* handle */ });
-    Emarsys.getPush().setSilentMessageEventHandler((context, name, payload) -> { /* handle */ });
-    Emarsys.getInApp().setEventHandler((context, name, payload) -> { /* handle */ });
-    Emarsys.getOnEventAction().setOnEventActionEventHandler((context, name, payload) -> { /* handle */ });
-    Emarsys.getGeofence().setEventHandler((context, name, payload) -> { /* handle */ });
 }
 ```
 
@@ -187,10 +162,10 @@ await Emarsys.trackCustomEvent({ eventName: 'my_event', eventAttributes: { key: 
 
 ### Events
 
-On **iOS**, all Emarsys native event handlers (push notification opened, silent message, in-app,
-onEventAction, geofence) are automatically forwarded to the JavaScript layer. Subscribe once — ideally
-early at app bootstrap so no events fired before the listener attaches are missed (Capacitor buffers
-and replays them on the first subscription):
+On **both iOS and Android**, all Emarsys native event handlers (push notification opened, silent
+message, in-app, onEventAction, geofence) are automatically forwarded to the JavaScript layer.
+Subscribe once — ideally early at app bootstrap so no events fired before the listener attaches are
+missed (Capacitor buffers and replays them on the first subscription):
 
 ```typescript
 import { Emarsys } from 'capacitor-emarsys-plugin';
@@ -201,11 +176,5 @@ const handle = await Emarsys.addEventListener((event: EmarsysEvent) => {
   // event.payload: the raw Emarsys payload
   console.log('Emarsys event', event.eventName, event.payload);
 });
-
-// later, to unsubscribe:
-await handle.remove();
 ```
-
-> The plugin registers all five handlers itself — do **not** set them in your `AppDelegate`. On
-> Android this JS bridge is not yet available (see [Known Issues](#known-issues)).
 

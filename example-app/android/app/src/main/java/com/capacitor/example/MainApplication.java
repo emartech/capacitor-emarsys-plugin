@@ -5,13 +5,9 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.emarsys.Emarsys;
 import com.emarsys.config.EmarsysConfig;
-import com.emarsys.mobileengage.api.event.EventHandler;
-
-import org.json.JSONObject;
 
 public class MainApplication extends Application {
 
@@ -28,17 +24,6 @@ public class MainApplication extends Application {
                 .build();
 
         Emarsys.setup(config);
-
-        Emarsys.getPush().setNotificationEventHandler((context, name, payload) ->
-                Log.i("EMARSYS", "Push notification: " + name));
-        Emarsys.getPush().setSilentMessageEventHandler((context, name, payload) ->
-                Log.i("EMARSYS", "Silent message: " + name));
-        Emarsys.getInApp().setEventHandler((context, name, payload) ->
-                Log.i("EMARSYS", "In-app event: " + name));
-        Emarsys.getOnEventAction().setOnEventActionEventHandler((context, name, payload) ->
-                Log.i("EMARSYS", "On event action: " + name));
-        Emarsys.getGeofence().setEventHandler((context, name, payload) ->
-                Log.i("EMARSYS", "Geofence event: " + name));
     }
 
     private void createNotificationChannels() {
