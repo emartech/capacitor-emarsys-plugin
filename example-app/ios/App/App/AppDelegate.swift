@@ -19,7 +19,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         UNUserNotificationCenter.current().delegate = Emarsys.push
         Emarsys.push.notificationEventHandler = { name, payload in
-            print("Event name: \(name) | Payload: \(payload ?? [:])")
+            print("Push notification event: \(name) | Payload: \(payload ?? [:])")
+        }
+        Emarsys.push.silentMessageEventHandler = { name, payload in
+            print("Silent message event: \(name) | Payload: \(payload ?? [:])")
+        }
+        Emarsys.inApp.eventHandler = { name, payload in
+            print("In-app event: \(name) | Payload: \(payload ?? [:])")
+        }
+        Emarsys.onEventAction.eventHandler = { name, payload in
+            print("On event action: \(name) | Payload: \(payload ?? [:])")
+        }
+        Emarsys.geofence.eventHandler = { name, payload in
+            print("Geofence event: \(name) | Payload: \(payload ?? [:])")
         }
         
         return true

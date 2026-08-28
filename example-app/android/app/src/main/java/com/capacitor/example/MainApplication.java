@@ -13,7 +13,7 @@ import com.emarsys.mobileengage.api.event.EventHandler;
 
 import org.json.JSONObject;
 
-public class MainApplication extends Application implements EventHandler {
+public class MainApplication extends Application {
 
     @Override
     public void onCreate() {
@@ -29,7 +29,16 @@ public class MainApplication extends Application implements EventHandler {
 
         Emarsys.setup(config);
 
-        Emarsys.getPush().setNotificationEventHandler(this);
+        Emarsys.getPush().setNotificationEventHandler((context, name, payload) ->
+                Log.i("EMARSYS", "Push notification: " + name));
+        Emarsys.getPush().setSilentMessageEventHandler((context, name, payload) ->
+                Log.i("EMARSYS", "Silent message: " + name));
+        Emarsys.getInApp().setEventHandler((context, name, payload) ->
+                Log.i("EMARSYS", "In-app event: " + name));
+        Emarsys.getOnEventAction().setOnEventActionEventHandler((context, name, payload) ->
+                Log.i("EMARSYS", "On event action: " + name));
+        Emarsys.getGeofence().setEventHandler((context, name, payload) ->
+                Log.i("EMARSYS", "Geofence event: " + name));
     }
 
     private void createNotificationChannels() {
@@ -56,10 +65,5 @@ public class MainApplication extends Application implements EventHandler {
             channel.setDescription(description);
             manager.createNotificationChannel(channel);
         }
-    }
-
-    @Override
-    public void handleEvent(Context context, String eventName, JSONObject payload) {
-        Log.i("EMARSYS_EVENT_HANDLER", eventName);
     }
 }
