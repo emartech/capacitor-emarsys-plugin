@@ -8,6 +8,12 @@ import EmarsysSDK
         }
     }
 
+    @objc public func clearContact(completion: @escaping (Error?) -> Void) {
+        Emarsys.clearContact() { error in
+            completion(error)
+        }
+    }
+
     @objc public func trackCustomEvent(eventName: String, eventAttributes: NSDictionary, completion: @escaping (Error?) -> Void) {
         Emarsys.trackCustomEvent(eventName: eventName, eventAttributes: eventAttributes as? [String: String]) { error in
             completion(error)

@@ -11,6 +11,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     public let jsName = "Emarsys"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "setContact", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "clearContact", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "trackCustomEvent", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
@@ -22,6 +23,16 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         implementation.setContact(contactFieldId: contactFieldId, contactFieldValue: contactFieldValue) { error in
             if let error = error {
                 call.reject("Set contact error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func clearContact(_ call: CAPPluginCall) {
+        implementation.clearContact() { error in
+            if let error = error {
+                call.reject("Clear contact error", error.localizedDescription)
             } else {
                 call.resolve()
             }

@@ -62,6 +62,7 @@ window.customElements.define(
       <main>
         <h1>Emarsys Plugin Demo</h1>
         <button class="button" id="set-contact-button">Set Contact</button>
+        <button class="button" id="clear-contact-button">Clear Contact</button>
         <button class="button" id="track-custom-event-button">Track Custom Event</button>
       </main>
     </div>
@@ -82,6 +83,17 @@ window.customElements.define(
         } catch (error) {
           console.error('Set contact error:', error);
           alert('Set contact error: ' + error);
+        }
+      });
+
+      self.shadowRoot.querySelector('#clear-contact-button').addEventListener('click', async function (e) {
+        try {
+          await Emarsys.clearContact();
+          console.log('Clear contact success!');
+          alert('Clear contact success!');
+        } catch (error) {
+          console.error('Clear contact error:', error);
+          alert('Clear contact error: ' + error);
         }
       });
 
