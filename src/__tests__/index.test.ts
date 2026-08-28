@@ -97,12 +97,27 @@ describe('Emarsys core API', () => {
   });
 
   describe('API surface', () => {
-    it('exposes the expected methods and the push module', () => {
+    it('exposes the expected methods and modules', () => {
       expect(typeof Emarsys.setContact).toBe('function');
       expect(typeof Emarsys.clearContact).toBe('function');
       expect(typeof Emarsys.trackCustomEvent).toBe('function');
       expect(typeof Emarsys.addEventListener).toBe('function');
-      expect(typeof Emarsys.push).toBe('object');
+
+      expect(typeof Emarsys.push.setPushToken).toBe('function');
+      expect(typeof Emarsys.push.clearPushToken).toBe('function');
+      expect(typeof Emarsys.push.getPushToken).toBe('function');
+
+      expect(typeof Emarsys.inApp.pause).toBe('function');
+      expect(typeof Emarsys.inApp.resume).toBe('function');
+      expect(typeof Emarsys.inApp.isPaused).toBe('function');
+
+      expect(typeof Emarsys.config.changeApplicationCode).toBe('function');
+      expect(typeof Emarsys.config.changeMerchantId).toBe('function');
+      expect(typeof Emarsys.config.getApplicationCode).toBe('function');
+      expect(typeof Emarsys.config.getMerchantId).toBe('function');
+      expect(typeof Emarsys.config.getClientId).toBe('function');
+      expect(typeof Emarsys.config.getLanguageCode).toBe('function');
+      expect(typeof Emarsys.config.getSdkVersion).toBe('function');
     });
   });
 });

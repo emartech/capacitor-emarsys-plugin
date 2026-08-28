@@ -48,9 +48,13 @@ This plugin is under active development. The table below compares current implem
 | `getRegisteredGeofences` | ❌ | ❌ | To be confirmed |
 | `geofence.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | **Configuration** | | | |
-| `changeApplicationCode` | ❌ | ❌ | To be confirmed |
-| `changeMerchantId` | ❌ | ❌ | To be confirmed |
-| `getSdkVersion` etc. | ❌ | ❌ | To be confirmed |
+| `changeApplicationCode` | ✅ | ✅ | `Emarsys.config.changeApplicationCode()` |
+| `changeMerchantId` | ✅ | ✅ | `Emarsys.config.changeMerchantId()` |
+| `getApplicationCode` | ✅ | ✅ | `Emarsys.config.getApplicationCode()` |
+| `getMerchantId` | ✅ | ✅ | `Emarsys.config.getMerchantId()` |
+| `getClientId` | ✅ | ✅ | `Emarsys.config.getClientId()` |
+| `getLanguageCode` | ✅ | ✅ | `Emarsys.config.getLanguageCode()` |
+| `getSdkVersion` | ✅ | ✅ | `Emarsys.config.getSdkVersion()` |
 | **Deep Linking** | | | |
 | `trackDeepLink` | ❌ | ❌ | To be confirmed |
 
@@ -134,9 +138,9 @@ public void onCreate() {
     super.onCreate();
 
     EmarsysConfig config = new EmarsysConfig.Builder()
-            .application(this)
-            .applicationCode("<APPLICATION_CODE>")
-            .build();
+        .application(this)
+        .applicationCode("<APPLICATION_CODE>")
+        .build();
     Emarsys.setup(config);
 }
 ```
@@ -149,7 +153,7 @@ public void onCreate() {
 import { Emarsys } from 'capacitor-emarsys-plugin';
 
 // Contact
-await Emarsys.setContact({ contactFieldId: 3, contactFieldValue: 'user@example.com' });
+await Emarsys.setContact({ contactFieldId: 123456, contactFieldValue: 'f7e3a2b9' });
 await Emarsys.clearContact();
 
 // Push
@@ -164,6 +168,14 @@ await Emarsys.trackCustomEvent({ eventName: 'my_event', eventAttributes: { key: 
 await Emarsys.inApp.pause();
 await Emarsys.inApp.resume();
 const paused = await Emarsys.inApp.isPaused();
+
+// Config
+await Emarsys.config.changeApplicationCode('<APPLICATION_CODE>');
+await Emarsys.config.changeMerchantId('<MERCHANT_ID>');
+const appCode = await Emarsys.config.getApplicationCode();
+const sdkVersion = await Emarsys.config.getSdkVersion();
+const languageCode = await Emarsys.config.getLanguageCode();
+const clientId = await Emarsys.config.getClientId();
 ```
 
 ### Events

@@ -19,11 +19,19 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "getPushToken", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "pauseInApp", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resumeInApp", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "isInAppPaused", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "isInAppPaused", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "changeApplicationCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "changeMerchantId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getApplicationCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getMerchantId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getClientId", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getLanguageCode", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getSdkVersion", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
     private let push = EmarsysPush()
     private let inApp = EmarsysInApp()
+    private let config = EmarsysConfig()
 
     private static let eventName = "emarsysEventHandler"
 
@@ -154,5 +162,50 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func isInAppPaused(_ call: CAPPluginCall) {
         call.resolve(["isPaused": inApp.isPaused()])
+    }
+
+    // MARK: - Config
+
+    @objc func changeApplicationCode(_ call: CAPPluginCall) {
+        guard let applicationCode = call.getString("applicationCode") else {
+            call.reject("applicationCode is required")
+            return
+        }
+        config.changeApplicationCode(applicationCode) { error in
+            if let error = error {
+                call.reject("Change application code error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func changeMerchantId(_ call: CAPPluginCall) {
+        guard let merchantId = call.getString("merchantId") else {
+            call.reject("merchantId is required")
+            return
+        }
+        config.changeMerchantId(merchantId)
+        call.resolve()
+    }
+
+    @objc func getApplicationCode(_ call: CAPPluginCall) {
+        call.resolve(["applicationCode": config.getApplicationCode() ?? ""])
+    }
+
+    @objc func getMerchantId(_ call: CAPPluginCall) {
+        call.resolve(["merchantId": config.getMerchantId() ?? ""])
+    }
+
+    @objc func getClientId(_ call: CAPPluginCall) {
+        call.resolve(["clientId": config.getClientId() ?? ""])
+    }
+
+    @objc func getLanguageCode(_ call: CAPPluginCall) {
+        call.resolve(["languageCode": config.getLanguageCode() ?? ""])
+    }
+
+    @objc func getSdkVersion(_ call: CAPPluginCall) {
+        call.resolve(["sdkVersion": config.getSdkVersion() ?? ""])
     }
 }

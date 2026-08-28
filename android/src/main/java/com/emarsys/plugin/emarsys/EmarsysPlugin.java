@@ -21,6 +21,7 @@ public class EmarsysPlugin extends Plugin {
     private EmarsysCore implementation = new EmarsysCore();
     private EmarsysPush push = new EmarsysPush();
     private EmarsysInApp inApp = new EmarsysInApp();
+    private EmarsysConfig config = new EmarsysConfig();
 
     // Event bus
 
@@ -175,6 +176,75 @@ public class EmarsysPlugin extends Plugin {
     public void isInAppPaused(PluginCall call) {
         JSObject ret = new JSObject();
         ret.put("isPaused", inApp.isPaused());
+        call.resolve(ret);
+    }
+
+    // Config
+
+    @PluginMethod
+    public void changeApplicationCode(PluginCall call) {
+        String applicationCode = call.getString("applicationCode");
+        if (applicationCode == null) {
+            call.reject("applicationCode is required");
+            return;
+        }
+        config.changeApplicationCode(applicationCode, error -> {
+            if (error != null) {
+                call.reject("Change application code error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
+
+    @PluginMethod
+    public void changeMerchantId(PluginCall call) {
+        String merchantId = call.getString("merchantId");
+        if (merchantId == null) {
+            call.reject("merchantId is required");
+            return;
+        }
+        config.changeMerchantId(merchantId);
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void getApplicationCode(PluginCall call) {
+        JSObject ret = new JSObject();
+        String value = config.getApplicationCode();
+        ret.put("applicationCode", value != null ? value : "");
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getMerchantId(PluginCall call) {
+        JSObject ret = new JSObject();
+        String value = config.getMerchantId();
+        ret.put("merchantId", value != null ? value : "");
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getClientId(PluginCall call) {
+        JSObject ret = new JSObject();
+        String value = config.getClientId();
+        ret.put("clientId", value != null ? value : "");
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getLanguageCode(PluginCall call) {
+        JSObject ret = new JSObject();
+        String value = config.getLanguageCode();
+        ret.put("languageCode", value != null ? value : "");
+        call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void getSdkVersion(PluginCall call) {
+        JSObject ret = new JSObject();
+        String value = config.getSdkVersion();
+        ret.put("sdkVersion", value != null ? value : "");
         call.resolve(ret);
     }
 }
