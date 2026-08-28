@@ -16,6 +16,10 @@ export interface EmarsysPlugin {
   clearPushToken(): Promise<void>;
   getPushToken(): Promise<{ pushToken: string }>;
 
+  pauseInApp(): Promise<void>;
+  resumeInApp(): Promise<void>;
+  isInAppPaused(): Promise<{ isPaused: boolean }>;
+
   // Auto-implemented by Capacitor's CAPPlugin; declared here for typing only.
   addListener(eventName: 'emarsysEventHandler', listenerFunc: EmarsysEventListener): Promise<PluginListenerHandle>;
 }
@@ -25,6 +29,13 @@ export interface PushModule {
   clearPushToken(): Promise<void>;
   getPushToken(): Promise<string>;
 }
+
+export interface InAppModule {
+  pause(): Promise<void>;
+  resume(): Promise<void>;
+  isPaused(): Promise<boolean>;
+}
+
 export interface EmarsysApi {
   setContact(options: { contactFieldId: number; contactFieldValue: string }): Promise<void>;
   clearContact(): Promise<void>;
@@ -33,4 +44,5 @@ export interface EmarsysApi {
   addEventListener(listener: EmarsysEventListener): Promise<PluginListenerHandle>;
 
   push: PushModule;
+  inApp: InAppModule;
 }

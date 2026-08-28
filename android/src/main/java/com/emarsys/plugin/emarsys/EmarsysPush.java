@@ -2,7 +2,7 @@ package com.emarsys.plugin.emarsys;
 
 import com.emarsys.Emarsys;
 
-public class EmarsysPushCore {
+public class EmarsysPush {
 
     public void setPushToken(String pushToken, EmarsysCompletionListener listener) {
         Emarsys.getPush().setPushToken(pushToken, (error) -> listener.onComplete(error));

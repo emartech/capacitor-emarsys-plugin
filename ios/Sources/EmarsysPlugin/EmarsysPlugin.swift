@@ -16,10 +16,14 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "trackCustomEvent", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "setPushToken", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "clearPushToken", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getPushToken", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "getPushToken", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "pauseInApp", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "resumeInApp", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isInAppPaused", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
     private let push = EmarsysPush()
+    private let inApp = EmarsysInApp()
 
     private static let eventName = "emarsysEventHandler"
 
@@ -134,5 +138,21 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve([
             "pushToken": pushToken ?? ""
         ])
+    }
+
+    // MARK: - InApp
+
+    @objc func pauseInApp(_ call: CAPPluginCall) {
+        inApp.pause()
+        call.resolve()
+    }
+
+    @objc func resumeInApp(_ call: CAPPluginCall) {
+        inApp.resume()
+        call.resolve()
+    }
+
+    @objc func isInAppPaused(_ call: CAPPluginCall) {
+        call.resolve(["isPaused": inApp.isPaused()])
     }
 }

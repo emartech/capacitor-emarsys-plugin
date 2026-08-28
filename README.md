@@ -25,8 +25,9 @@ This plugin is under active development. The table below compares current implem
 | **Event Tracking** | | | |
 | `trackCustomEvent` | ✅ | ✅ | |
 | **In-App Messaging** | | | |
-| `pause` | ❌ | ❌ | To be confirmed |
-| `resume` | ❌ | ❌ | To be confirmed |
+| `pause` | ✅ | ✅ | `Emarsys.inApp.pause()` |
+| `resume` | ✅ | ✅ | `Emarsys.inApp.resume()` |
+| `isPaused` | ✅ | ✅ | `Emarsys.inApp.isPaused()` |
 | `loadInlineInApp` | ❌ | ❌ | To be confirmed |
 | `inApp.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
 | `onEventAction.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
@@ -158,6 +159,11 @@ const pushToken = await Emarsys.push.getPushToken();
 
 // Event Tracking
 await Emarsys.trackCustomEvent({ eventName: 'my_event', eventAttributes: { key: 'value' } });
+
+// In-App
+await Emarsys.inApp.pause();
+await Emarsys.inApp.resume();
+const paused = await Emarsys.inApp.isPaused();
 ```
 
 ### Events

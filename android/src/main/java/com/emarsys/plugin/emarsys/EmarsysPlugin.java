@@ -19,7 +19,8 @@ public class EmarsysPlugin extends Plugin {
     private static final String EVENT_NAME = "emarsysEventHandler";
 
     private EmarsysCore implementation = new EmarsysCore();
-    private EmarsysPushCore push = new EmarsysPushCore();
+    private EmarsysPush push = new EmarsysPush();
+    private EmarsysInApp inApp = new EmarsysInApp();
 
     // Event bus
 
@@ -153,6 +154,27 @@ public class EmarsysPlugin extends Plugin {
         String pushToken = push.getPushToken();
         JSObject ret = new JSObject();
         ret.put("pushToken", pushToken != null ? pushToken : "");
+        call.resolve(ret);
+    }
+
+    // InApp
+
+    @PluginMethod
+    public void pauseInApp(PluginCall call) {
+        inApp.pause();
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void resumeInApp(PluginCall call) {
+        inApp.resume();
+        call.resolve();
+    }
+
+    @PluginMethod
+    public void isInAppPaused(PluginCall call) {
+        JSObject ret = new JSObject();
+        ret.put("isPaused", inApp.isPaused());
         call.resolve(ret);
     }
 }

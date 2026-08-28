@@ -17,6 +17,9 @@ export function createMockBridge(): MockedBridge {
     setPushToken: jest.fn().mockResolvedValue(undefined),
     clearPushToken: jest.fn().mockResolvedValue(undefined),
     getPushToken: jest.fn().mockResolvedValue({ pushToken: '' }),
+    pauseInApp: jest.fn().mockResolvedValue(undefined),
+    resumeInApp: jest.fn().mockResolvedValue(undefined),
+    isInAppPaused: jest.fn().mockResolvedValue({ isPaused: false }),
     addListener: jest.fn().mockResolvedValue({ remove: jest.fn() }),
   };
 }

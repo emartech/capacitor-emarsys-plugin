@@ -1,6 +1,7 @@
 import { registerPlugin } from '@capacitor/core';
 
 import type { EmarsysApi, EmarsysPlugin } from './definitions';
+import { createInAppModule } from './inApp';
 import { createPushModule } from './push';
 
 // The native bridge. `registerPlugin` returns a Proxy whose every property
@@ -18,6 +19,7 @@ const Emarsys: EmarsysApi = {
   addEventListener: (listener) => EmarsysPluginInstance.addListener('emarsysEventHandler', listener),
 
   push: createPushModule(EmarsysPluginInstance),
+  inApp: createInAppModule(EmarsysPluginInstance),
 };
 
 export * from './definitions';
