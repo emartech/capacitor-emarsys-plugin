@@ -14,10 +14,6 @@ import EmarsysSDK
         return Emarsys.geofence.isEnabled()
     }
 
-    @objc public func requestAlwaysAuthorization() {
-        Emarsys.geofence.requestAlwaysAuthorization()
-    }
-
     @objc public func getRegisteredGeofences() -> [[String: Any]] {
         return Emarsys.geofence.registeredGeofences().map { GeofenceMapper.map($0) }
     }

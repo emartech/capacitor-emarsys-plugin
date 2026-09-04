@@ -238,9 +238,4 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     @objc func getRegisteredGeofences(_ call: CAPPluginCall) {
         call.resolve(["geofences": geofence.getRegisteredGeofences()])
     }
-
-    @objc func requestLocationPermission(_ call: CAPPluginCall) {
-        geofence.requestAlwaysAuthorization()
-        call.resolve()
-    }
 }
