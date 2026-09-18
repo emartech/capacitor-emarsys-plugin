@@ -1,5 +1,8 @@
 package com.emarsys.plugin.emarsys;
 
+import android.graphics.Color;
+import android.view.View;
+import android.view.ViewGroup;
 import com.emarsys.Emarsys;
 import com.emarsys.mobileengage.api.event.EventHandler;
 import com.getcapacitor.JSObject;
@@ -17,6 +20,7 @@ import org.json.JSONObject;
 public class EmarsysPlugin extends Plugin {
 
     private static final String EVENT_NAME = "emarsysEventHandler";
+    private static final String INLINE_EVENT_NAME = "emarsysInlineInAppHandler";
 
     private EmarsysCore implementation = new EmarsysCore();
     private EmarsysPush push = new EmarsysPush();
@@ -38,6 +42,8 @@ public class EmarsysPlugin extends Plugin {
         Emarsys.getInApp().setEventHandler(handler);
         Emarsys.getOnEventAction().setOnEventActionEventHandler(handler);
         Emarsys.getGeofence().setEventHandler(handler);
+
+        inApp.setInlineEventCallback(this::forwardInline);
     }
 
     private void forward(String eventName, JSONObject payload) {
@@ -53,6 +59,20 @@ public class EmarsysPlugin extends Plugin {
             data.put("payload", new JSObject());
         }
         notifyListeners(EVENT_NAME, data, true);
+    }
+
+    private void forwardInline(String viewRef, String type, JSONObject payload) {
+        JSObject data = new JSObject();
+        data.put("viewRef", viewRef);
+        data.put("type", type);
+        if (payload != null) {
+            Iterator<String> keys = payload.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                data.put(key, payload.opt(key));
+            }
+        }
+        notifyListeners(INLINE_EVENT_NAME, data, false);
     }
 
     // Contact
@@ -178,6 +198,72 @@ public class EmarsysPlugin extends Plugin {
         JSObject ret = new JSObject();
         ret.put("isPaused", inApp.isPaused());
         call.resolve(ret);
+    }
+
+    @PluginMethod
+    public void loadInlineInApp(PluginCall call) {
+        String viewRef = call.getString("viewRef");
+        String viewId = call.getString("viewId");
+        if (viewRef == null) {
+            call.reject("viewRef is required");
+            return;
+        }
+        if (viewId == null) {
+            call.reject("viewId is required");
+            return;
+        }
+        EmarsysInApp.InlineFrame frame = frameFrom(call);
+        if (frame == null) {
+            call.reject("frame is required");
+            return;
+        }
+        Integer zIndex = call.getInt("zIndex");
+        getActivity().runOnUiThread(() -> {
+            ViewGroup parent = webViewParent();
+            if (parent == null) {
+                call.reject("WebView is not attached");
+                return;
+            }
+            makeWebViewTransparent();
+            inApp.loadInline(viewRef, viewId, parent, frame, zIndex);
+            call.resolve();
+        });
+    }
+
+    private EmarsysInApp.InlineFrame frameFrom(PluginCall call) {
+        JSObject frame = call.getObject("frame");
+        if (frame == null) {
+            return null;
+        }
+        float density = getContext().getResources().getDisplayMetrics().density;
+        int x = Math.round((float) frame.optDouble("x", 0) * density);
+        int y = Math.round((float) frame.optDouble("y", 0) * density);
+        int width = Math.round((float) frame.optDouble("width", 0) * density);
+        int height = Math.round((float) frame.optDouble("height", 0) * density);
+
+        View webView = getBridge().getWebView();
+        if (webView != null) {
+            int[] loc = new int[2];
+            webView.getLocationInWindow(loc);
+            x += loc[0];
+            y += loc[1];
+        }
+        return new EmarsysInApp.InlineFrame(x, y, width, height);
+    }
+
+    private ViewGroup webViewParent() {
+        View webView = getBridge().getWebView();
+        if (webView != null && webView.getParent() instanceof ViewGroup) {
+            return (ViewGroup) webView.getParent();
+        }
+        return getActivity().findViewById(android.R.id.content);
+    }
+
+    private void makeWebViewTransparent() {
+        View webView = getBridge().getWebView();
+        if (webView != null) {
+            webView.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     // Config

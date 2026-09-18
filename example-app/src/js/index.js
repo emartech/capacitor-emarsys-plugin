@@ -1,9 +1,13 @@
 import { Emarsys } from 'capacitor-emarsys-plugin';
 
-import { initConfigTab } from './tab-config.js';
-import { initGeofenceTab } from './tab-geofence.js';
-import { initInAppTab } from './tab-inapp.js';
-import { initPushTab } from './tab-push.js';
+import { CONFIG_TAB_HTML, initConfigTab } from './tab-config.js';
+import { GEOFENCE_TAB_HTML, initGeofenceTab } from './tab-geofence.js';
+import { INAPP_TAB_HTML, initInAppTab } from './tab-inapp.js';
+import { PUSH_TAB_HTML, initPushTab } from './tab-push.js';
+
+// Inject tab content
+document.querySelector('.tab-content').innerHTML =
+  CONFIG_TAB_HTML + PUSH_TAB_HTML + INAPP_TAB_HTML + GEOFENCE_TAB_HTML;
 
 // Tab navigation
 const tabBtns = document.querySelectorAll('.tab-btn');

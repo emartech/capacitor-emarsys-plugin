@@ -7,6 +7,7 @@ export const GEOFENCE_TAB_HTML = `
     <button class="btn" id="disable-geofence">Disable</button>
     <button class="btn" id="is-geofence-enabled">Is Enabled?</button>
     <button class="btn" id="get-registered-geofences">Get Registered Geofences</button>
+    <button class="btn" id="request-location-permission">Request Location Permission</button>
   </div>
 `;
 

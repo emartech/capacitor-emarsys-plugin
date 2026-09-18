@@ -2,10 +2,6 @@ import Foundation
 import Capacitor
 import EmarsysSDK
 
-/**
- * Please read the Capacitor iOS Plugin Development Guide
- * here: https://capacitorjs.com/docs/plugins/ios
- */
 @objc(EmarsysPlugin)
 public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "EmarsysPlugin"
@@ -20,6 +16,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "pauseInApp", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "resumeInApp", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isInAppPaused", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "loadInlineInApp", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "changeApplicationCode", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "changeMerchantId", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getApplicationCode", returnType: CAPPluginReturnPromise),
@@ -39,6 +36,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     private let geofence = EmarsysGeofence()
 
     private static let eventName = "emarsysEventHandler"
+    private static let inlineEventName = "emarsysInlineInAppHandler"
 
     // MARK: - Event bus
 
@@ -52,6 +50,10 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         Emarsys.inApp.eventHandler = handler
         Emarsys.onEventAction.eventHandler = handler
         Emarsys.geofence.eventHandler = handler
+
+        inApp.inlineEventCallback = { [weak self] viewRef, type, data in
+            self?.forwardInline(viewRef: viewRef, type: type, data: data)
+        }
     }
 
     private func forward(eventName: String, payload: [AnyHashable: Any]?) {
@@ -69,6 +71,15 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         ]
         DispatchQueue.main.async { [weak self] in
             self?.notifyListeners(EmarsysPlugin.eventName, data: data, retainUntilConsumed: true)
+        }
+    }
+
+    private func forwardInline(viewRef: String, type: String, data: [String: Any]) {
+        var payload: [String: Any] = data
+        payload["viewRef"] = viewRef
+        payload["type"] = type
+        DispatchQueue.main.async { [weak self] in
+            self?.notifyListeners(EmarsysPlugin.inlineEventName, data: payload)
         }
     }
 
@@ -167,6 +178,35 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func isInAppPaused(_ call: CAPPluginCall) {
         call.resolve(["isPaused": inApp.isPaused()])
+    }
+
+    @objc func loadInlineInApp(_ call: CAPPluginCall) {
+        guard let viewRef = call.getString("viewRef") else {
+            call.reject("viewRef is required")
+            return
+        }
+        guard let viewId = call.getString("viewId") else {
+            call.reject("viewId is required")
+            return
+        }
+        guard let frame = frame(from: call) else {
+            call.reject("frame is required")
+            return
+        }
+        let zIndex = call.getInt("zIndex")
+        DispatchQueue.main.async { [weak self] in
+            self?.inApp.loadInline(viewRef: viewRef, viewId: viewId, frame: frame, zIndex: zIndex, webView: self?.webView)
+            call.resolve()
+        }
+    }
+
+    private func frame(from call: CAPPluginCall) -> CGRect? {
+        guard let frame = call.getObject("frame") else { return nil }
+        let x = (frame["x"] as? NSNumber)?.doubleValue ?? 0
+        let y = (frame["y"] as? NSNumber)?.doubleValue ?? 0
+        let width = (frame["width"] as? NSNumber)?.doubleValue ?? 0
+        let height = (frame["height"] as? NSNumber)?.doubleValue ?? 0
+        return CGRect(x: x, y: y, width: width, height: height)
     }
 
     // MARK: - Config

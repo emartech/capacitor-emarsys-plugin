@@ -1,8 +1,10 @@
 import type { PluginListenerHandle } from '@capacitor/core';
 
 import type { Geofence } from './types/Geofence';
+import type { InlineInAppEventListener, InlineInAppRect } from './types/InlineInApp';
 
 export type { Geofence, GeofenceTrigger } from './types/Geofence';
+export type { InlineInAppRect, InlineInAppEvent, InlineInAppEventListener } from './types/InlineInApp';
 
 export interface EmarsysEvent {
   eventName: string;
@@ -24,6 +26,8 @@ export interface EmarsysPlugin {
   resumeInApp(): Promise<void>;
   isInAppPaused(): Promise<{ isPaused: boolean }>;
 
+  loadInlineInApp(options: { viewRef: string; viewId: string; frame: InlineInAppRect; zIndex?: number }): Promise<void>;
+
   changeApplicationCode(options: { applicationCode: string }): Promise<void>;
   changeMerchantId(options: { merchantId: string }): Promise<void>;
   getApplicationCode(): Promise<{ applicationCode: string }>;
@@ -39,6 +43,10 @@ export interface EmarsysPlugin {
 
   // Auto-implemented by Capacitor's CAPPlugin; declared here for typing only.
   addListener(eventName: 'emarsysEventHandler', listenerFunc: EmarsysEventListener): Promise<PluginListenerHandle>;
+  addListener(
+    eventName: 'emarsysInlineInAppHandler',
+    listenerFunc: InlineInAppEventListener,
+  ): Promise<PluginListenerHandle>;
 }
 
 export interface PushModule {
