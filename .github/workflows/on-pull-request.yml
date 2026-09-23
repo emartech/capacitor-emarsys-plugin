@@ -1,0 +1,27 @@
+name: On Pull Request
+
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    name: Run Tests
+    uses: ./.github/workflows/run-tests.yml
+    secrets: inherit
+
+  build-package:
+    name: Build Package
+    needs: run-tests
+    uses: ./.github/workflows/build-package.yml
+    secrets: inherit
+
+  build-sample:
+    name: Build Sample App
+    needs: build-package
+    uses: ./.github/workflows/build-sample.yml
+    secrets: inherit

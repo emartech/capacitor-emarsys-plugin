@@ -1,0 +1,21 @@
+name: Run Tests
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  run-js-tests:
+    name: Run JS Tests
+    uses: ./.github/workflows/run-js-tests.yml
+
+  run-android-tests:
+    name: Run Android Tests
+    uses: ./.github/workflows/run-android-tests.yml
+
+  run-ios-tests:
+    name: Run iOS Tests
+    uses: ./.github/workflows/run-ios-tests.yml

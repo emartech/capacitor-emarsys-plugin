@@ -1,0 +1,78 @@
+name: Build Sample App
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build-sample:
+    name: Build Sample App (Android & iOS)
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: 22
+        cache: npm
+
+    - name: Setup Java
+      uses: actions/setup-java@v6
+      with:
+        distribution: temurin
+        java-version: 21
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v4
+
+    - name: Install plugin dependencies
+      run: npm ci
+
+    - name: Build plugin
+      run: npm run build
+
+    # The example app depends on the plugin via "file:.." — the same source a
+    # consumer gets from a git tag — so no packing/publishing step is needed.
+    - name: Install example-app dependencies and build web assets
+      working-directory: example-app
+      run: npm ci && npm run build
+
+    - name: Sync native projects
+      working-directory: example-app
+      run: npx cap sync
+
+    - name: Write google-services.json
+      env:
+        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+      run: |
+        if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+          echo "$GOOGLE_SERVICES_JSON" > example-app/android/app/google-services.json
+          echo "Wrote google-services.json from secret"
+        else
+          echo "::warning::GOOGLE_SERVICES_JSON secret not set — Android build proceeds without Firebase config"
+        fi
+
+    - name: Build Android
+      working-directory: example-app/android
+      run: ./gradlew assembleDebug --no-daemon
+
+    - name: Install CocoaPods
+      working-directory: example-app/ios/App
+      run: pod install
+
+    - name: Build iOS
+      working-directory: example-app/ios/App
+      run: |
+        xcodebuild \
+          -workspace App.xcworkspace \
+          -scheme App \
+          -configuration Debug \
+          -sdk iphonesimulator \
+          -destination 'generic/platform=iOS Simulator' \
+          CODE_SIGNING_ALLOWED=NO \
+          build

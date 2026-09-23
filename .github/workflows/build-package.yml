@@ -1,0 +1,48 @@
+name: Build Package
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  build-package:
+    name: Build, Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v7
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v7
+      with:
+        node-version: 22
+        cache: npm
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Check version consistency
+      run: bash scripts/check-version-consistency.sh
+
+    - name: Verify version matches release tag
+      if: github.event_name == 'release'
+      run: |
+        PKG=$(node -pe "require('./package.json').version")
+        TAG="${{ github.event.release.tag_name }}"
+        if [ "$PKG" != "${TAG#v}" ]; then
+          echo "::error::package.json version ($PKG) != release tag (${TAG#v})"
+          exit 1
+        fi
+        echo "Version $PKG matches release tag $TAG"
+
+    - name: Run linting
+      run: npm run eslint
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build project
+      run: npm run build

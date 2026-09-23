@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-15-xlarge
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Use Xcode 16.4
         run: sudo xcode-select -switch /Applications/Xcode_16.4.app
