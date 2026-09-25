@@ -26,7 +26,7 @@ const Emarsys: EmarsysApi = {
 // TODO: extract values from package.json
 void EmarsysPluginInstance.trackCustomEvent({
   eventName: 'wrapper:init',
-  eventAttributes: { type: 'capacitor', version: '0.0.1', frameworkVersion: '8.5.0' },
+  eventAttributes: { type: 'capacitor', version: '0.1.0', frameworkVersion: '8.5.0' },
 }).catch(() => {
   /* ignore */
 });
