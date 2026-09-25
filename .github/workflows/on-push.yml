@@ -1,20 +1,13 @@
-name: Run Tests
+name: On Push
 
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
-  run-js-tests:
-    name: Run JS Tests
-    uses: ./.github/workflows/run-js-tests.yml
-
-  run-android-tests:
-    name: Run Android Tests
-    uses: ./.github/workflows/run-android-tests.yml
-
-  run-ios-tests:
-    name: Run iOS Tests
-    uses: ./.github/workflows/run-ios-tests.yml
+  run-tests:
+    name: Run Tests
+    uses: ./.github/workflows/run-tests.yml

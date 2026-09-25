@@ -1,0 +1,32 @@
+name: On Release
+
+permissions:
+  contents: read
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+# This plugin is installed directly from GitHub (see README), so there is no npm
+# publish step. The git tag and GitHub Release are created at the draft stage
+# (create-release-draft.yml). Publishing the release re-runs the full validation
+# pipeline as a final gate — tests, build, and a sample-app build against the
+# tagged source — and asserts package.json matches the release tag.
+jobs:
+  run-tests:
+    name: Run Tests
+    uses: ./.github/workflows/run-tests.yml
+    secrets: inherit
+
+  build-package:
+    name: Build Package
+    needs: run-tests
+    uses: ./.github/workflows/build-package.yml
+    secrets: inherit
+
+  build-sample:
+    name: Build Sample App
+    needs: build-package
+    uses: ./.github/workflows/build-sample.yml
+    secrets: inherit
