@@ -13,4 +13,11 @@ import EmarsysSDK
         }
     }
 
+    @objc public func addTag(_ tag: String, messageId: String, completion: @escaping (Error?) -> Void) {
+        Emarsys.messageInbox.addTag(tag: tag, messageId: messageId) { error in completion(error) }
+    }
+
+    @objc public func removeTag(_ tag: String, messageId: String, completion: @escaping (Error?) -> Void) {
+        Emarsys.messageInbox.removeTag(tag: tag, messageId: messageId) { error in completion(error) }
+    }
 }

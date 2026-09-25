@@ -125,6 +125,8 @@ describe('Emarsys core API', () => {
       expect(typeof Emarsys.geofence.getRegisteredGeofences).toBe('function');
 
       expect(typeof Emarsys.inbox.fetchMessages).toBe('function');
+      expect(typeof Emarsys.inbox.addTag).toBe('function');
+      expect(typeof Emarsys.inbox.removeTag).toBe('function');
     });
   });
 });

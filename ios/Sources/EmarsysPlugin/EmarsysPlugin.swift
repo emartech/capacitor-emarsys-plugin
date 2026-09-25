@@ -32,6 +32,8 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "isGeofenceEnabled", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getRegisteredGeofences", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "fetchInboxMessages", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "addInboxTag", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeInboxTag", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
     private let push = EmarsysPush()
@@ -253,4 +255,39 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
 
+    @objc func addInboxTag(_ call: CAPPluginCall) {
+        guard let tag = call.getString("tag") else {
+            call.reject("tag is required")
+            return
+        }
+        guard let messageId = call.getString("messageId") else {
+            call.reject("messageId is required")
+            return
+        }
+        inbox.addTag(tag, messageId: messageId) { error in
+            if let error = error {
+                call.reject("Add inbox tag error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func removeInboxTag(_ call: CAPPluginCall) {
+        guard let tag = call.getString("tag") else {
+            call.reject("tag is required")
+            return
+        }
+        guard let messageId = call.getString("messageId") else {
+            call.reject("messageId is required")
+            return
+        }
+        inbox.removeTag(tag, messageId: messageId) { error in
+            if let error = error {
+                call.reject("Remove inbox tag error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
 }

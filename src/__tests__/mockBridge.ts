@@ -32,6 +32,8 @@ export function createMockBridge(): MockedBridge {
     isGeofenceEnabled: jest.fn().mockResolvedValue({ isEnabled: false }),
     getRegisteredGeofences: jest.fn().mockResolvedValue({ geofences: [] }),
     fetchInboxMessages: jest.fn().mockResolvedValue({ messages: [] }),
+    addInboxTag: jest.fn().mockResolvedValue(undefined),
+    removeInboxTag: jest.fn().mockResolvedValue(undefined),
     addListener: jest.fn().mockResolvedValue({ remove: jest.fn() }),
   };
 }

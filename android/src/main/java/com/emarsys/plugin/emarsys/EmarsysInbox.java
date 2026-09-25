@@ -25,4 +25,13 @@ public class EmarsysInbox {
         });
     }
 
+    public void addTag(String tag, String messageId, EmarsysCompletionListener listener) {
+        CompletionListener completionListener = (error) -> listener.onComplete(error);
+        Emarsys.getMessageInbox().addTag(tag, messageId, completionListener);
+    }
+
+    public void removeTag(String tag, String messageId, EmarsysCompletionListener listener) {
+        CompletionListener completionListener = (error) -> listener.onComplete(error);
+        Emarsys.getMessageInbox().removeTag(tag, messageId, completionListener);
+    }
 }

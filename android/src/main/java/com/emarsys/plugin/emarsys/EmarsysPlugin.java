@@ -298,4 +298,45 @@ public class EmarsysPlugin extends Plugin {
         });
     }
 
+    @PluginMethod
+    public void addInboxTag(PluginCall call) {
+        String tag = call.getString("tag");
+        String messageId = call.getString("messageId");
+        if (tag == null) {
+            call.reject("tag is required");
+            return;
+        }
+        if (messageId == null) {
+            call.reject("messageId is required");
+            return;
+        }
+        inbox.addTag(tag, messageId, (error) -> {
+            if (error != null) {
+                call.reject("Add inbox tag error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
+
+    @PluginMethod
+    public void removeInboxTag(PluginCall call) {
+        String tag = call.getString("tag");
+        String messageId = call.getString("messageId");
+        if (tag == null) {
+            call.reject("tag is required");
+            return;
+        }
+        if (messageId == null) {
+            call.reject("messageId is required");
+            return;
+        }
+        inbox.removeTag(tag, messageId, (error) -> {
+            if (error != null) {
+                call.reject("Remove inbox tag error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
 }
