@@ -23,6 +23,7 @@ public class EmarsysPlugin extends Plugin {
     private EmarsysInApp inApp = new EmarsysInApp();
     private EmarsysConfig config = new EmarsysConfig();
     private EmarsysGeofence geofence = new EmarsysGeofence();
+    private EmarsysInbox inbox = new EmarsysInbox();
 
     // Event bus
 
@@ -280,5 +281,62 @@ public class EmarsysPlugin extends Plugin {
         JSObject ret = new JSObject();
         ret.put("geofences", geofence.getRegisteredGeofences());
         call.resolve(ret);
+    }
+
+    // Inbox
+
+    @PluginMethod
+    public void fetchInboxMessages(PluginCall call) {
+        inbox.fetchMessages((messages, error) -> {
+            if (error != null) {
+                call.reject("Fetch inbox messages error", error.getMessage());
+            } else {
+                JSObject ret = new JSObject();
+                ret.put("messages", messages);
+                call.resolve(ret);
+            }
+        });
+    }
+
+    @PluginMethod
+    public void addInboxTag(PluginCall call) {
+        String tag = call.getString("tag");
+        String messageId = call.getString("messageId");
+        if (tag == null) {
+            call.reject("tag is required");
+            return;
+        }
+        if (messageId == null) {
+            call.reject("messageId is required");
+            return;
+        }
+        inbox.addTag(tag, messageId, (error) -> {
+            if (error != null) {
+                call.reject("Add inbox tag error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
+    }
+
+    @PluginMethod
+    public void removeInboxTag(PluginCall call) {
+        String tag = call.getString("tag");
+        String messageId = call.getString("messageId");
+        if (tag == null) {
+            call.reject("tag is required");
+            return;
+        }
+        if (messageId == null) {
+            call.reject("messageId is required");
+            return;
+        }
+        inbox.removeTag(tag, messageId, (error) -> {
+            if (error != null) {
+                call.reject("Remove inbox tag error", error.getMessage());
+            } else {
+                call.resolve();
+            }
+        });
     }
 }

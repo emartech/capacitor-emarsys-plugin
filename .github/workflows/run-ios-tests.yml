@@ -6,18 +6,15 @@ on:
 
 jobs:
   ios-tests:
-    runs-on: macos-15-xlarge
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v7
-
-      - name: Use Xcode 16.4
-        run: sudo xcode-select -switch /Applications/Xcode_16.4.app
 
       - name: Run iOS unit tests
         run: |
           xcodebuild test \
             -scheme CapacitorEmarsysPlugin \
             -sdk iphonesimulator \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.5' \
+            -destination 'platform=iOS Simulator,name=iPhone 17' \
             -configuration Debug

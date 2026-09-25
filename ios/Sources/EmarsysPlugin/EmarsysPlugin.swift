@@ -30,13 +30,17 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "enableGeofence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "disableGeofence", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isGeofenceEnabled", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getRegisteredGeofences", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "getRegisteredGeofences", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "fetchInboxMessages", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "addInboxTag", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "removeInboxTag", returnType: CAPPluginReturnPromise)
     ]
     private let implementation = EmarsysCore()
     private let push = EmarsysPush()
     private let inApp = EmarsysInApp()
     private let config = EmarsysConfig()
     private let geofence = EmarsysGeofence()
+    private let inbox = EmarsysInbox()
 
     private static let eventName = "emarsysEventHandler"
 
@@ -237,5 +241,53 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
 
     @objc func getRegisteredGeofences(_ call: CAPPluginCall) {
         call.resolve(["geofences": geofence.getRegisteredGeofences()])
+    }
+
+    // MARK: - Inbox
+
+    @objc func fetchInboxMessages(_ call: CAPPluginCall) {
+        inbox.fetchMessages { messages, error in
+            if let error = error {
+                call.reject("Fetch inbox messages error", error.localizedDescription)
+            } else {
+                call.resolve(["messages": messages ?? []])
+            }
+        }
+    }
+
+    @objc func addInboxTag(_ call: CAPPluginCall) {
+        guard let tag = call.getString("tag") else {
+            call.reject("tag is required")
+            return
+        }
+        guard let messageId = call.getString("messageId") else {
+            call.reject("messageId is required")
+            return
+        }
+        inbox.addTag(tag, messageId: messageId) { error in
+            if let error = error {
+                call.reject("Add inbox tag error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
+    }
+
+    @objc func removeInboxTag(_ call: CAPPluginCall) {
+        guard let tag = call.getString("tag") else {
+            call.reject("tag is required")
+            return
+        }
+        guard let messageId = call.getString("messageId") else {
+            call.reject("messageId is required")
+            return
+        }
+        inbox.removeTag(tag, messageId: messageId) { error in
+            if let error = error {
+                call.reject("Remove inbox tag error", error.localizedDescription)
+            } else {
+                call.resolve()
+            }
+        }
     }
 }
