@@ -11,7 +11,7 @@
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "ios": "npm run build && npx cap copy ios && npx cap open ios",
+    "ios": "npm run build && npx cap copy ios && cd ios/App && pod install && cd ../.. && npx cap open ios",
     "android": "npm run build && npx cap copy android && npx cap open android"
   },
   "dependencies": {
