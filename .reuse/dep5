@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Capacitor Plugin for SAP Emarsys SDK
+Upstream-Contact: g-gsuite-mobileengineers@emarsys.com
+Source: https://github.com/emartech/capacitor-emarsys-plugin
+
+Files: *
+Copyright: Copyright 2026 Emarsys
+License: Apache-2.0

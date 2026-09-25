@@ -1,67 +1,65 @@
+[![REUSE status](https://api.reuse.software/badge/github.com/emartech/capacitor-emarsys-plugin)](https://api.reuse.software/info/github.com/emartech/capacitor-emarsys-plugin)
+
 ## Capacitor Plugin for SAP Emarsys
 
 > **⚠ Disclaimer**
 > This is an internal LIF (Learning and Innovation Friday) project and is **not a supported SAP Emarsys product**. It is not intended for production use by customers. SAP Emarsys assumes no responsibility for any issues arising from its use. Customers may use this project as a **reference implementation** for building their own Capacitor integration with the Emarsys Mobile SDK.
 
-The Capacitor Plugin for SAP Emarsys is a **LIF (Learning and Innovation Friday)** project to help integrate the SAP Emarsys Mobile SDK into Capacitor applications.
+The Capacitor Plugin for SAP Emarsys is a **LIF (Learning and Innovation Friday)** project to help integrate the SAP Emarsys SDK into Capacitor applications.
 
 ---
 
 ## Status
 
-This plugin is under active development. The table below compares current implementation status against the [React Native Emarsys SDK](https://github.com/emartech/react-native-emarsys-sdk).
+This plugin is under active development.
 
-| Feature | iOS | Android | Notes |
-|---|---|---|---|
-| **Contact Management** | | | |
-| `setContact` | ✅ | ✅ | `Emarsys.setContact()` |
-| `clearContact` | ✅ | ✅ | `Emarsys.clearContact()` |
-| **Push** | | | |
-| `setPushToken` | ✅ | ✅ | `Emarsys.push.setPushToken()` |
-| `clearPushToken` | ✅ | ✅ | `Emarsys.push.clearPushToken()` |
-| `getPushToken` | ✅ | ✅ | `Emarsys.push.getPushToken()` |
-| `notificationEventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
-| `silentMessageEventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
-| **Event Tracking** | | | |
-| `trackCustomEvent` | ✅ | ✅ | `Emarsys.trackCustomEvent()` |
-| **In-App Messaging** | | | |
-| `pause` | ✅ | ✅ | `Emarsys.inApp.pause()` |
-| `resume` | ✅ | ✅ | `Emarsys.inApp.resume()` |
-| `isPaused` | ✅ | ✅ | `Emarsys.inApp.isPaused()` |
-| `loadInlineInApp` | ❌ | ❌ | To be confirmed |
-| `inApp.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
-| `onEventAction.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
-| **Predict** | | | |
-| `trackPurchase` | ❌ | ❌ | To be confirmed |
-| `trackItemView` | ❌ | ❌ | To be confirmed |
-| `trackCategoryView` | ❌ | ❌ | To be confirmed |
-| `trackSearchTerm` | ❌ | ❌ | To be confirmed |
-| `trackTag` | ❌ | ❌ | To be confirmed |
-| `recommendProducts` | ❌ | ❌ | To be confirmed |
-| `trackRecommendationClick` | ❌ | ❌ | To be confirmed |
-| **Inbox** | | | |
-| `fetchMessages` | ✅ | ✅ | `Emarsys.inbox.fetchMessages()` |
-| `addTag` / `removeTag` | ✅ | ✅ | `Emarsys.inbox.addTag()` / `Emarsys.inbox.removeTag()` |
-| **Geofencing** | | | |
-| `enable` | ✅ | ✅ | `Emarsys.geofence.enable()` |
-| `disable` | ✅ | ✅ | `Emarsys.geofence.disable()` |
-| `isEnabled` | ✅ | ✅ | `Emarsys.geofence.isEnabled()` |
-| `getRegisteredGeofences` | ✅ | ✅ | `Emarsys.geofence.getRegisteredGeofences()` |
-| `geofence.eventHandler` | ✅ | ✅ | Forwarded to JS via `Emarsys.addEventListener` |
-| **Configuration** | | | |
-| `changeApplicationCode` | ✅ | ✅ | `Emarsys.config.changeApplicationCode()` |
-| `changeMerchantId` | ✅ | ✅ | `Emarsys.config.changeMerchantId()` |
-| `getApplicationCode` | ✅ | ✅ | `Emarsys.config.getApplicationCode()` |
-| `getMerchantId` | ✅ | ✅ | `Emarsys.config.getMerchantId()` |
-| `getClientId` | ✅ | ✅ | `Emarsys.config.getClientId()` |
-| `getLanguageCode` | ✅ | ✅ | `Emarsys.config.getLanguageCode()` |
-| `getSdkVersion` | ✅ | ✅ | `Emarsys.config.getSdkVersion()` |
-| **Deep Linking** | | | |
-| `trackDeepLink` | ❌ | ❌ | To be confirmed |
-
-### Known Issues
-
-- None currently.
+| Feature                      | iOS | Android | Notes                                                  |
+|------------------------------|-----|---------|--------------------------------------------------------|
+| **Contact Management**       |     |         |                                                        |
+| `setContact`                 | ✅  | ✅      | `Emarsys.setContact()`                                 |
+| `clearContact`               | ✅  | ✅      | `Emarsys.clearContact()`                               |
+| **Push**                     |     |         |                                                        |
+| `setPushToken`               | ✅  | ✅      | `Emarsys.push.setPushToken()`                          |
+| `clearPushToken`             | ✅  | ✅      | `Emarsys.push.clearPushToken()`                        |
+| `getPushToken`               | ✅  | ✅      | `Emarsys.push.getPushToken()`                          |
+| `notificationEventHandler`   | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
+| `silentMessageEventHandler`  | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
+| **Event Tracking**           |     |         |                                                        |
+| `trackCustomEvent`           | ✅  | ✅      | `Emarsys.trackCustomEvent()`                           |
+| **In-App Messaging**         |     |         |                                                        |
+| `pause`                      | ✅  | ✅      | `Emarsys.inApp.pause()`                                |
+| `resume`                     | ✅  | ✅      | `Emarsys.inApp.resume()`                               |
+| `isPaused`                   | ✅  | ✅      | `Emarsys.inApp.isPaused()`                             |
+| `loadInlineInApp`            | ❌  | ❌      | To be confirmed                                        |
+| `inApp.eventHandler`         | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
+| `onEventAction.eventHandler` | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
+| **Predict**                  |     |         |                                                        |
+| `trackPurchase`              | ❌  | ❌      | To be confirmed                                        |
+| `trackItemView`              | ❌  | ❌      | To be confirmed                                        |
+| `trackCategoryView`          | ❌  | ❌      | To be confirmed                                        |
+| `trackSearchTerm`            | ❌  | ❌      | To be confirmed                                        |
+| `trackTag`                   | ❌  | ❌      | To be confirmed                                        |
+| `recommendProducts`          | ❌  | ❌      | To be confirmed                                        |
+| `trackRecommendationClick`   | ❌  | ❌      | To be confirmed                                        |
+| **Inbox**                    |     |         |                                                        |
+| `fetchMessages`              | ✅  | ✅      | `Emarsys.inbox.fetchMessages()`                        |
+| `addTag` / `removeTag`       | ✅  | ✅      | `Emarsys.inbox.addTag()` / `Emarsys.inbox.removeTag()` |
+| **Geofencing**               |     |         |                                                        |
+| `enable`                     | ✅  | ✅      | `Emarsys.geofence.enable()`                            |
+| `disable`                    | ✅  | ✅      | `Emarsys.geofence.disable()`                           |
+| `isEnabled`                  | ✅  | ✅      | `Emarsys.geofence.isEnabled()`                         |
+| `getRegisteredGeofences`     | ✅  | ✅      | `Emarsys.geofence.getRegisteredGeofences()`            |
+| `geofence.eventHandler`      | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
+| **Configuration**            |     |         |                                                        |
+| `changeApplicationCode`      | ✅  | ✅      | `Emarsys.config.changeApplicationCode()`               |
+| `changeMerchantId`           | ✅  | ✅      | `Emarsys.config.changeMerchantId()`                    |
+| `getApplicationCode`         | ✅  | ✅      | `Emarsys.config.getApplicationCode()`                  |
+| `getMerchantId`              | ✅  | ✅      | `Emarsys.config.getMerchantId()`                       |
+| `getClientId`                | ✅  | ✅      | `Emarsys.config.getClientId()`                         |
+| `getLanguageCode`            | ✅  | ✅      | `Emarsys.config.getLanguageCode()`                     |
+| `getSdkVersion`              | ✅  | ✅      | `Emarsys.config.getSdkVersion()`                       |
+| **Deep Linking**             |     |         |                                                        |
+| `trackDeepLink`              | ❌  | ❌      | To be confirmed                                        |
 
 ---
 
