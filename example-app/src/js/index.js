@@ -3,6 +3,7 @@ import { Emarsys } from 'capacitor-emarsys-plugin';
 import { CONFIG_TAB_HTML, initConfigTab } from './tab-config.js';
 import { GEOFENCE_TAB_HTML, initGeofenceTab } from './tab-geofence.js';
 import { INAPP_TAB_HTML, initInAppTab } from './tab-inapp.js';
+import { INBOX_TAB_HTML, initInboxTab } from './tab-inbox.js';
 import { PUSH_TAB_HTML, initPushTab } from './tab-push.js';
 
 // Inject tab HTML
@@ -32,3 +33,4 @@ initConfigTab(document);
 initPushTab(document);
 initInAppTab(document);
 initGeofenceTab(document);
+initInboxTab(document);

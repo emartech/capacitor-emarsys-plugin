@@ -23,6 +23,7 @@ public class EmarsysPlugin extends Plugin {
     private EmarsysInApp inApp = new EmarsysInApp();
     private EmarsysConfig config = new EmarsysConfig();
     private EmarsysGeofence geofence = new EmarsysGeofence();
+    private EmarsysInbox inbox = new EmarsysInbox();
 
     // Event bus
 
@@ -281,4 +282,20 @@ public class EmarsysPlugin extends Plugin {
         ret.put("geofences", geofence.getRegisteredGeofences());
         call.resolve(ret);
     }
+
+    // Inbox
+
+    @PluginMethod
+    public void fetchInboxMessages(PluginCall call) {
+        inbox.fetchMessages((messages, error) -> {
+            if (error != null) {
+                call.reject("Fetch inbox messages error", error.getMessage());
+            } else {
+                JSObject ret = new JSObject();
+                ret.put("messages", messages);
+                call.resolve(ret);
+            }
+        });
+    }
+
 }

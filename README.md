@@ -40,8 +40,8 @@ This plugin is under active development. The table below compares current implem
 | `recommendProducts` | ❌ | ❌ | To be confirmed |
 | `trackRecommendationClick` | ❌ | ❌ | To be confirmed |
 | **Inbox** | | | |
-| `fetchMessages` | ❌ | ❌ | To be confirmed |
 | `addTag` / `removeTag` | ❌ | ❌ | To be confirmed |
+| `fetchMessages` | ✅ | ✅ | `Emarsys.inbox.fetchMessages()` |
 | **Geofencing** | | | |
 | `enable` | ✅ | ✅ | `Emarsys.geofence.enable()` |
 | `disable` | ✅ | ✅ | `Emarsys.geofence.disable()` |
@@ -183,6 +183,9 @@ await Emarsys.geofence.enable();
 await Emarsys.geofence.disable();
 const isEnabled = await Emarsys.geofence.isEnabled();
 const geofences = await Emarsys.geofence.getRegisteredGeofences();
+
+// Inbox
+const messages = await Emarsys.inbox.fetchMessages();
 ```
 
 ### Events

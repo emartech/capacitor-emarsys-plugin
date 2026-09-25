@@ -4,6 +4,7 @@ import { createConfigModule } from './config';
 import type { EmarsysApi, EmarsysPlugin } from './definitions';
 import { createGeofenceModule } from './geofence';
 import { createInAppModule } from './inApp';
+import { createInboxModule } from './inbox';
 import { createPushModule } from './push';
 
 const EmarsysPluginInstance = registerPlugin<EmarsysPlugin>('Emarsys');
@@ -19,6 +20,7 @@ const Emarsys: EmarsysApi = {
   inApp: createInAppModule(EmarsysPluginInstance),
   config: createConfigModule(EmarsysPluginInstance),
   geofence: createGeofenceModule(EmarsysPluginInstance),
+  inbox: createInboxModule(EmarsysPluginInstance),
 };
 
 export * from './definitions';
