@@ -20,6 +20,7 @@ export function createMockBridge(): MockedBridge {
     pauseInApp: jest.fn().mockResolvedValue(undefined),
     resumeInApp: jest.fn().mockResolvedValue(undefined),
     isInAppPaused: jest.fn().mockResolvedValue({ isPaused: false }),
+    loadInlineInApp: jest.fn().mockResolvedValue(undefined),
     changeApplicationCode: jest.fn().mockResolvedValue(undefined),
     changeMerchantId: jest.fn().mockResolvedValue(undefined),
     getApplicationCode: jest.fn().mockResolvedValue({ applicationCode: '' }),
