@@ -47,7 +47,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     // MARK: - Event bus
 
     /// Called by the Capacitor bridge when the plugin is loaded (after the app's `Emarsys.setup`).
-    public override func load() {
+    override public func load() {
         let handler: EMSEventHandlerBlock = { [weak self] name, payload in
             self?.forward(eventName: name, payload: payload)
         }
@@ -87,7 +87,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject("contactFieldValue is required")
             return
         }
-        
+
         implementation.setContact(contactFieldId: contactFieldId, contactFieldValue: contactFieldValue) { error in
             if let error = error {
                 call.reject("Set contact error", error.localizedDescription)
@@ -98,7 +98,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func clearContact(_ call: CAPPluginCall) {
-        implementation.clearContact() { error in
+        implementation.clearContact { error in
             if let error = error {
                 call.reject("Clear contact error", error.localizedDescription)
             } else {
@@ -113,7 +113,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
             return
         }
         let eventAttributes = call.getObject("eventAttributes") as NSDictionary? ?? [:]
-        
+
         implementation.trackCustomEvent(eventName: eventName, eventAttributes: eventAttributes) { error in
             if let error = error {
                 call.reject("Track custom event error", error.localizedDescription)
@@ -141,7 +141,7 @@ public class EmarsysPlugin: CAPPlugin, CAPBridgedPlugin {
     }
 
     @objc func clearPushToken(_ call: CAPPluginCall) {
-        push.clearPushToken() { error in
+        push.clearPushToken { error in
             if let error = error {
                 call.reject("Clear push token error", error.localizedDescription)
             } else {

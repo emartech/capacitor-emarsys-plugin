@@ -9,7 +9,7 @@ import EmarsysSDK
     }
 
     @objc public func clearContact(completion: @escaping (Error?) -> Void) {
-        Emarsys.clearContact() { error in
+        Emarsys.clearContact { error in
             completion(error)
         }
     }

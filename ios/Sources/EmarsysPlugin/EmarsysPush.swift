@@ -10,7 +10,7 @@ import EmarsysSDK
     }
 
     @objc public func clearPushToken(completion: @escaping (Error?) -> Void) {
-        Emarsys.push.clearPushToken() { error in
+        Emarsys.push.clearPushToken { error in
             completion(error)
         }
     }
