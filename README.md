@@ -1,5 +1,3 @@
-[![REUSE status](https://api.reuse.software/badge/github.com/emartech/capacitor-emarsys-plugin)](https://api.reuse.software/info/github.com/emartech/capacitor-emarsys-plugin)
-
 ## Capacitor Plugin for SAP Emarsys
 
 > **⚠ Disclaimer**
@@ -13,53 +11,109 @@ The Capacitor Plugin for SAP Emarsys is a **LIF (Learning and Innovation Friday)
 
 This plugin is under active development.
 
-| Feature                      | iOS | Android | Notes                                                  |
-|------------------------------|-----|---------|--------------------------------------------------------|
-| **Contact Management**       |     |         |                                                        |
-| `setContact`                 | ✅  | ✅      | `Emarsys.setContact()`                                 |
-| `clearContact`               | ✅  | ✅      | `Emarsys.clearContact()`                               |
-| **Push**                     |     |         |                                                        |
-| `setPushToken`               | ✅  | ✅      | `Emarsys.push.setPushToken()`                          |
-| `clearPushToken`             | ✅  | ✅      | `Emarsys.push.clearPushToken()`                        |
-| `getPushToken`               | ✅  | ✅      | `Emarsys.push.getPushToken()`                          |
-| `notificationEventHandler`   | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
-| `silentMessageEventHandler`  | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
-| **Event Tracking**           |     |         |                                                        |
-| `trackCustomEvent`           | ✅  | ✅      | `Emarsys.trackCustomEvent()`                           |
-| **In-App Messaging**         |     |         |                                                        |
-| `pause`                      | ✅  | ✅      | `Emarsys.inApp.pause()`                                |
-| `resume`                     | ✅  | ✅      | `Emarsys.inApp.resume()`                               |
-| `isPaused`                   | ✅  | ✅      | `Emarsys.inApp.isPaused()`                             |
-| `loadInlineInApp`            | ❌  | ❌      | To be confirmed                                        |
-| `inApp.eventHandler`         | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
-| `onEventAction.eventHandler` | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
-| **Predict**                  |     |         |                                                        |
-| `trackPurchase`              | ❌  | ❌      | To be confirmed                                        |
-| `trackItemView`              | ❌  | ❌      | To be confirmed                                        |
-| `trackCategoryView`          | ❌  | ❌      | To be confirmed                                        |
-| `trackSearchTerm`            | ❌  | ❌      | To be confirmed                                        |
-| `trackTag`                   | ❌  | ❌      | To be confirmed                                        |
-| `recommendProducts`          | ❌  | ❌      | To be confirmed                                        |
-| `trackRecommendationClick`   | ❌  | ❌      | To be confirmed                                        |
-| **Inbox**                    |     |         |                                                        |
-| `fetchMessages`              | ✅  | ✅      | `Emarsys.inbox.fetchMessages()`                        |
-| `addTag` / `removeTag`       | ✅  | ✅      | `Emarsys.inbox.addTag()` / `Emarsys.inbox.removeTag()` |
-| **Geofencing**               |     |         |                                                        |
-| `enable`                     | ✅  | ✅      | `Emarsys.geofence.enable()`                            |
-| `disable`                    | ✅  | ✅      | `Emarsys.geofence.disable()`                           |
-| `isEnabled`                  | ✅  | ✅      | `Emarsys.geofence.isEnabled()`                         |
-| `getRegisteredGeofences`     | ✅  | ✅      | `Emarsys.geofence.getRegisteredGeofences()`            |
-| `geofence.eventHandler`      | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`         |
-| **Configuration**            |     |         |                                                        |
-| `changeApplicationCode`      | ✅  | ✅      | `Emarsys.config.changeApplicationCode()`               |
-| `changeMerchantId`           | ✅  | ✅      | `Emarsys.config.changeMerchantId()`                    |
-| `getApplicationCode`         | ✅  | ✅      | `Emarsys.config.getApplicationCode()`                  |
-| `getMerchantId`              | ✅  | ✅      | `Emarsys.config.getMerchantId()`                       |
-| `getClientId`                | ✅  | ✅      | `Emarsys.config.getClientId()`                         |
-| `getLanguageCode`            | ✅  | ✅      | `Emarsys.config.getLanguageCode()`                     |
-| `getSdkVersion`              | ✅  | ✅      | `Emarsys.config.getSdkVersion()`                       |
-| **Deep Linking**             |     |         |                                                        |
-| `trackDeepLink`              | ❌  | ❌      | To be confirmed                                        |
+| Feature                      | iOS | Android | Notes                                                                                                              |
+|------------------------------|-----|---------|--------------------------------------------------------------------------------------------------------------------|
+| **Contact Management**       |     |         |                                                                                                                    |
+| `setContact`                 | ✅  | ✅      | `Emarsys.setContact()`                                                                                             |
+| `clearContact`               | ✅  | ✅      | `Emarsys.clearContact()`                                                                                           |
+| **Push**                     |     |         |                                                                                                                    |
+| `setPushToken`               | ✅  | ✅      | `Emarsys.push.setPushToken()`                                                                                      |
+| `clearPushToken`             | ✅  | ✅      | `Emarsys.push.clearPushToken()`                                                                                    |
+| `getPushToken`               | ✅  | ✅      | `Emarsys.push.getPushToken()`                                                                                      |
+| `notificationEventHandler`   | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`                                                                     |
+| `silentMessageEventHandler`  | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`                                                                     |
+| **Event Tracking**           |     |         |                                                                                                                    |
+| `trackCustomEvent`           | ✅  | ✅      | `Emarsys.trackCustomEvent()`                                                                                       |
+| **In-App Messaging**         |     |         |                                                                                                                    |
+| `pause`                      | ✅  | ✅      | `Emarsys.inApp.pause()`                                                                                            |
+| `resume`                     | ✅  | ✅      | `Emarsys.inApp.resume()`                                                                                           |
+| `isPaused`                   | ✅  | ✅      | `Emarsys.inApp.isPaused()`                                                                                         |
+| `loadInlineInApp`            | ✅  | ✅      | `<emarsys-inline-inapp>` element + `inlineInapp.loadInApp(viewId)` — see [Inline in-app view](#inline-in-app-view) |
+| `inApp.eventHandler`         | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`                                                                     |
+| `onEventAction.eventHandler` | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`                                                                     |
+| **Predict**                  |     |         |                                                                                                                    |
+| `trackPurchase`              | ❌  | ❌      | To be confirmed                                                                                                    |
+| `trackItemView`              | ❌  | ❌      | To be confirmed                                                                                                    |
+| `trackCategoryView`          | ❌  | ❌      | To be confirmed                                                                                                    |
+| `trackSearchTerm`            | ❌  | ❌      | To be confirmed                                                                                                    |
+| `trackTag`                   | ❌  | ❌      | To be confirmed                                                                                                    |
+| `recommendProducts`          | ❌  | ❌      | To be confirmed                                                                                                    |
+| `trackRecommendationClick`   | ❌  | ❌      | To be confirmed                                                                                                    |
+| **Inbox**                    |     |         |                                                                                                                    |
+| `fetchMessages`              | ✅  | ✅      | `Emarsys.inbox.fetchMessages()`                                                                                    |
+| `addTag` / `removeTag`       | ✅  | ✅      | `Emarsys.inbox.addTag()` / `Emarsys.inbox.removeTag()`                                                             |
+| **Geofencing**               |     |         |                                                                                                                    |
+| `enable`                     | ✅  | ✅      | `Emarsys.geofence.enable()`                                                                                        |
+| `disable`                    | ✅  | ✅      | `Emarsys.geofence.disable()`                                                                                       |
+| `isEnabled`                  | ✅  | ✅      | `Emarsys.geofence.isEnabled()`                                                                                     |
+| `getRegisteredGeofences`     | ✅  | ✅      | `Emarsys.geofence.getRegisteredGeofences()`                                                                        |
+| `geofence.eventHandler`      | ✅  | ✅      | Forwarded to JS via `Emarsys.addEventListener`                                                                     |
+| **Configuration**            |     |         |                                                                                                                    |
+| `changeApplicationCode`      | ✅  | ✅      | `Emarsys.config.changeApplicationCode()`                                                                           |
+| `changeMerchantId`           | ✅  | ✅      | `Emarsys.config.changeMerchantId()`                                                                                |
+| `getApplicationCode`         | ✅  | ✅      | `Emarsys.config.getApplicationCode()`                                                                              |
+| `getMerchantId`              | ✅  | ✅      | `Emarsys.config.getMerchantId()`                                                                                   |
+| `getClientId`                | ✅  | ✅      | `Emarsys.config.getClientId()`                                                                                     |
+| `getLanguageCode`            | ✅  | ✅      | `Emarsys.config.getLanguageCode()`                                                                                 |
+| `getSdkVersion`              | ✅  | ✅      | `Emarsys.config.getSdkVersion()`                                                                                   |
+| **Deep Linking**             |     |         |                                                                                                                    |
+| `trackDeepLink`              | ❌  | ❌      | To be confirmed                                                                                                    |
+
+---
+
+## Inline in-app view
+
+The Emarsys SDK renders inline in-app messages into a **native view**. React Native and
+Flutter mount that view in their native layout tree; Capacitor apps are HTML, so this
+plugin exposes it as a custom element, `<emarsys-inline-inapp>`, that overlays the native
+view on top of the WebView.
+
+You load a campaign imperatively — mirroring the React Native
+`inlineInAppView.current.loadInApp(viewId)` flow — and react to its callbacks as DOM
+events dispatched on the element:
+
+| DOM event            | `event.detail`                      | When                                             |
+|----------------------|-------------------------------------|--------------------------------------------------|
+| `emarsys:completion` | `{ error: string \| null }`         | The campaign finished loading (or failed).       |
+| `emarsys:appevent`   | `{ name: string, payload: object }` | The user triggered an app event (e.g. a button). |
+| `emarsys:close`      | `{}`                                | The user closed the message.                     |
+
+```html
+<emarsys-inline-inapp id="inline-view" style="display:block;width:100%;height:0;"></emarsys-inline-inapp>
+```
+
+```js
+const inlineInapp = document.getElementById('inline-view');
+
+inlineInapp.addEventListener('emarsys:completion', (e) => {
+  if (e.detail.error) inlineInapp.style.height = '0'; // collapse again if the load failed
+});
+inlineInapp.addEventListener('emarsys:close', () => {
+  inlineInapp.style.height = '0';
+});
+inlineInapp.addEventListener('emarsys:appevent', (e) => {
+  console.log('inline app event', e.detail.name, e.detail.payload);
+});
+
+// Give the element a real size BEFORE loading — the native overlay is positioned
+// once, at load time, from the element's current rect. Then load by view id.
+inlineInapp.style.height = '125px';
+await inlineInapp.loadInApp('view-id');
+```
+
+**Sizing:** the element is a transparent placeholder — give it an explicit width and a
+real height *before* calling `loadInApp` (the native overlay is positioned once, from the
+element's rect at load time). Collapse it back to `0` on `emarsys:close`.
+
+**Host requirement — transparent WebView background.** The native view is drawn *behind*
+the WebView layer. The plugin makes the WebView non-opaque when the first inline view is
+loaded, but your app's background where the placeholder sits must also be transparent, or
+the message will be hidden. Ensure the `body` (and any container over the placeholder)
+does not paint an opaque background there.
+
+**Note:** the native overlay is positioned once, at load time. It does not automatically
+follow WebView scrolling — place the element where it will be visible without scrolling,
+or reload it after layout changes.
 
 ---
 
