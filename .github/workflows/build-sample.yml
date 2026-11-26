@@ -48,13 +48,13 @@ jobs:
 
     - name: Write google-services.json
       env:
-        GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        GOOGLE_SERVICES_JSON: ${{ vars.GOOGLE_SERVICES_JSON }}
       run: |
         if [ -n "$GOOGLE_SERVICES_JSON" ]; then
           echo "$GOOGLE_SERVICES_JSON" > example-app/android/app/google-services.json
-          echo "Wrote google-services.json from secret"
+          echo "Wrote google-services.json from repo variable"
         else
-          echo "::warning::GOOGLE_SERVICES_JSON secret not set — Android build proceeds without Firebase config"
+          echo "::warning::GOOGLE_SERVICES_JSON repo variable not set — Android build proceeds without Firebase config"
         fi
 
     - name: Build Android
